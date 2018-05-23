@@ -1,0 +1,83 @@
+# \SearchApi
+
+All URIs are relative to *https://od-api-demo.oxforddictionaries.com:443/api/v1*
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+[**SearchSourceLangGet**](SearchApi.md#SearchSourceLangGet) | **Get** /search/{source_lang} | Retrieve possible matches to input
+[**SearchSourceSearchLanguageTranslationstargetSearchLanguageGet**](SearchApi.md#SearchSourceSearchLanguageTranslationstargetSearchLanguageGet) | **Get** /search/{source_search_language}/translations&#x3D;{target_search_language} | Retrieve possible translation matches to input
+
+
+# **SearchSourceLangGet**
+> Wordlist SearchSourceLangGet($sourceLang, $appId, $appKey, $q, $prefix, $regions, $limit, $offset)
+
+Retrieve possible matches to input
+
+ Use this to retrieve possible [headword](documentation/glossary?term=headword) matches for a given string of text. The results are culculated using headword matching, fuzzy matching, and [lemmatization](documentation/glossary?term=lemma)     <div id=\"search\"></div> 
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **sourceLang** | **string**| IANA language code | 
+ **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
+ **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+ **q** | **string**| Search string | [optional] [default to eye]
+ **prefix** | **bool**| Set prefix to true if you&#39;d like to get results only starting with search string. | [optional] [default to false]
+ **regions** | **string**| If searching in English, filter words with specific region(s) either &#39;us&#39; or &#39;gb&#39;. | [optional] 
+ **limit** | **string**| Limit the number of results per response. Default and maximum limit is 5000. | [optional] 
+ **offset** | **string**| Offset the start number of the result. | [optional] 
+
+### Return type
+
+[**Wordlist**](Wordlist.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **SearchSourceSearchLanguageTranslationstargetSearchLanguageGet**
+> Wordlist SearchSourceSearchLanguageTranslationstargetSearchLanguageGet($sourceSearchLanguage, $targetSearchLanguage, $appId, $appKey, $q, $prefix, $regions, $limit, $offset)
+
+Retrieve possible translation matches to input
+
+ Use this to find matches in our translation dictionaries.    <div id=\"search_translation\"></div> 
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **sourceSearchLanguage** | **string**| IANA language code | 
+ **targetSearchLanguage** | **string**| IANA language code | 
+ **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
+ **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+ **q** | **string**| Search string. | [optional] [default to eye]
+ **prefix** | **bool**| Set prefix to true if you&#39;d like to get results only starting with search string. | [optional] [default to false]
+ **regions** | **string**| Filter words with specific region(s) E.g., regions&#x3D;us. For now gb, us are available for en language. | [optional] 
+ **limit** | **string**| Limit the number of results per response. Default and maximum limit is 5000. | [optional] 
+ **offset** | **string**| Offset the start number of the result. | [optional] 
+
+### Return type
+
+[**Wordlist**](Wordlist.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
