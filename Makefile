@@ -10,6 +10,7 @@ all: $(CURDIR)/$(SWAGGER_CODEGEN_JAR) $(CURDIR)/public_doc_guest.json
 		--lang go \
 		-o $(SWAGGER_CODEGEN_DEST_DIR) \
 		-i ./public_doc_guest.json
+	goimports -w $(SWAGGER_CODEGEN_DEST_DIR)
 
 $(CURDIR)/public_doc_guest.json:
 		cd $(CURDIR) && \
