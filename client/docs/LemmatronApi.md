@@ -9,22 +9,21 @@ Method | HTTP request | Description
 
 
 # **InflectionsSourceLangWordIdFiltersGet**
-> Lemmatron InflectionsSourceLangWordIdFiltersGet($sourceLang, $wordId, $filters, $appId, $appKey)
-
+> Lemmatron InflectionsSourceLangWordIdFiltersGet(ctx, sourceLang, wordId, filters, appId, appKey)
 Apply optional filters to Lemmatron response
 
  Retrieve available [lemmas](documentation/glossary?term=lemma) for a given [inflected](documentation/glossary?term=inflection) wordform. Filter results by categories.      <div id=\"lemmatron_filters\"></div> 
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **sourceLang** | **string**| IANA language code | 
- **wordId** | **string**| The input word | 
- **filters** | [**[]string**](string.md)| Separate filtering conditions using a semicolon. Conditions take values grammaticalFeatures and/or lexicalCategory and are case-sensitive. To list multiple values in single condition divide them with comma. | 
- **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
- **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **sourceLang** | **string**| IANA language code | 
+  **wordId** | **string**| The input word | 
+  **filters** | [**[]string**](string.md)| Separate filtering conditions using a semicolon. Conditions take values grammaticalFeatures and/or lexicalCategory and are case-sensitive. To list multiple values in single condition divide them with comma. | 
+  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
+  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
 
 ### Return type
 
@@ -42,21 +41,20 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **InflectionsSourceLangWordIdGet**
-> Lemmatron InflectionsSourceLangWordIdGet($sourceLang, $wordId, $appId, $appKey)
-
+> Lemmatron InflectionsSourceLangWordIdGet(ctx, sourceLang, wordId, appId, appKey)
 Check a word exists in the dictionary and retrieve its root form
 
  Use this to check if a word exists in the dictionary, or what 'root' form it links to (e.g., swimming > swim). The response tells you the possible [lemmas](documentation/glossary?term=lemma) for a given [inflected](documentation/glossary?term=inflection) word. This can then be combined with other endpoints to retrieve more information.    <div id=\"lemmatron\"></div> 
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **sourceLang** | **string**| IANA language code | 
- **wordId** | **string**| The input word | 
- **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
- **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **sourceLang** | **string**| IANA language code | 
+  **wordId** | **string**| The input word | 
+  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
+  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
 
 ### Return type
 

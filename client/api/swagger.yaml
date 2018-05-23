@@ -1,0 +1,4636 @@
+---
+swagger: "2.0"
+info:
+  version: "1.11.0"
+  title: ""
+  termsOfService: "http://helloreverb.com/terms/"
+  license:
+    name: "API Terms And Conditions"
+    url: "https://developer.oxforddictionaries.com/api-terms-and-conditions"
+host: "od-api-demo.oxforddictionaries.com:443"
+basePath: "/api/v1"
+schemes:
+- "https"
+produces:
+- "application/json"
+paths:
+  /inflections/{source_lang}/{word_id}:
+    get:
+      tags:
+      - "Lemmatron"
+      summary: "Check a word exists in the dictionary and retrieve its root form"
+      description: "\nUse this to check if a word exists in the dictionary, or what\
+        \ 'root' form it links to (e.g., swimming > swim). The response tells you\
+        \ the possible [lemmas](documentation/glossary?term=lemma) for a given [inflected](documentation/glossary?term=inflection)\
+        \ word. This can then be combined with other endpoints to retrieve more information.\n\
+        \n  <div id=\"lemmatron\"></div>\n"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "source_lang"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        enum:
+        - "en"
+        - "es"
+        - "hi"
+        - "nso"
+        - "tn"
+        - "zu"
+        - "de"
+        - "pt"
+        x-exportParamName: "SourceLang"
+      - name: "word_id"
+        in: "path"
+        description: "The input word"
+        required: true
+        type: "string"
+        default: "swimming"
+        x-exportParamName: "WordId"
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response."
+          schema:
+            title: "InflectionsResults"
+            $ref: "#/definitions/Lemmatron"
+        500:
+          description: "Internal Error. An error occurred while processing the data.\n"
+  /inflections/{source_lang}/{word_id}/{filters}:
+    get:
+      tags:
+      - "Lemmatron"
+      summary: "Apply optional filters to Lemmatron response"
+      description: "\nRetrieve available [lemmas](documentation/glossary?term=lemma)\
+        \ for a given [inflected](documentation/glossary?term=inflection) wordform.\
+        \ Filter results by categories.  \n\n  <div id=\"lemmatron_filters\"></div>\n"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "source_lang"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        enum:
+        - "en"
+        - "es"
+        - "hi"
+        - "nso"
+        - "tn"
+        - "zu"
+        - "de"
+        - "pt"
+        x-exportParamName: "SourceLang"
+      - name: "word_id"
+        in: "path"
+        description: "The input word"
+        required: true
+        type: "string"
+        default: "change"
+        x-exportParamName: "WordId"
+      - name: "filters"
+        in: "path"
+        description: "Separate filtering conditions using a semicolon. Conditions\
+          \ take values grammaticalFeatures and/or lexicalCategory and are case-sensitive.\
+          \ To list multiple values in single condition divide them with comma."
+        required: true
+        type: "array"
+        items:
+          type: "string"
+          pattern: "(lexicalCategory|grammaticalFeatures)=.+"
+        collectionFormat: "csv"
+        default: "grammaticalFeatures=singular,past;lexicalCategory=noun"
+        x-exportParamName: "Filters"
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response."
+          schema:
+            title: "InflectionsResults"
+            $ref: "#/definitions/Lemmatron"
+        500:
+          description: "Internal Error. An error occurred while processing the data.\n"
+  /entries/{source_lang}/{word_id}:
+    get:
+      tags:
+      - "Dictionary entries"
+      summary: "Retrieve dictionary information for a given word"
+      description: "\nUse this to retrieve definitions, [pronunciations](documentation/glossary?term=pronunciation),\
+        \ example sentences, [grammatical information](documentation/glossary?term=grammaticalfeatures)\
+        \ and [word origins](documentation/glossary?term=etymology). It only works\
+        \ for dictionary [headwords](documentation/glossary?term=headword), so you\
+        \ may need to use the [Lemmatron](documentation/glossary?term=lemma) first\
+        \ if your input is likely to be an [inflected](documentation/glossary?term=inflection)\
+        \ form (e.g., 'swimming'). This would return the linked [headword](documentation/glossary?term=headword)\
+        \ (e.g., 'swim') which you can then use in the Entries endpoint. Unless specified\
+        \ using a region filter, the default lookup will be the Oxford Dictionary\
+        \ of English (GB). \n  <div id=\"dictionary_entries\"></div>\n"
+      parameters:
+      - name: "source_lang"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        enum:
+        - "en"
+        - "es"
+        - "lv"
+        - "hi"
+        - "sw"
+        - "ta"
+        - "gu"
+        x-exportParamName: "SourceLang"
+      - name: "word_id"
+        in: "path"
+        description: "An Entry identifier. Case-sensitive."
+        required: true
+        type: "string"
+        default: "ace"
+        x-exportParamName: "WordId"
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response."
+          schema:
+            title: "RetrieveEntryResults"
+            $ref: "#/definitions/RetrieveEntry"
+        404:
+          description: "No entry is found matching supplied id and source_lang or\
+            \ filters are not recognized\n"
+        500:
+          description: "Internal Error. An error occurred while processing the data.\n"
+      externalDocs:
+        description: "find more info here"
+        url: "https://helloreverb.com/about"
+  /entries/{source_lang}/{word_id}/regions={region}:
+    get:
+      tags:
+      - "Dictionary entries"
+      summary: "Specify GB or US dictionary for English entry search"
+      description: "\nUSe this filter to restrict the lookup to either our Oxford\
+        \ Dictionary of English (GB) or New Oxford American Dictionary (US).\n"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "source_lang"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        enum:
+        - "en"
+        x-exportParamName: "SourceLang"
+      - name: "word_id"
+        in: "path"
+        description: "An Entry identifier. Case-sensitive."
+        required: true
+        type: "string"
+        default: "ace"
+        x-exportParamName: "WordId"
+      - name: "region"
+        in: "path"
+        description: "Region filter parameter. gb = Oxford Dictionary of English.\
+          \ us = New Oxford American Dictionary."
+        required: true
+        type: "string"
+        enum:
+        - "gb"
+        - "us"
+        x-exportParamName: "Region"
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response."
+          schema:
+            title: "RetrieveEntryResults"
+            $ref: "#/definitions/RetrieveEntry"
+        404:
+          description: "no entry is found matching supplied source_lang and id\nand/or\
+            \ that entry has no senses with translations in the target language. \n"
+        500:
+          description: "Internal Error. An error occurred while processing the data.\n"
+      externalDocs:
+        description: "find more info here"
+        url: "https://helloreverb.com/about"
+  /entries/{source_lang}/{word_id}/{filters}:
+    get:
+      tags:
+      - "Dictionary entries"
+      summary: "Apply filters to response"
+      description: "\nUse filters to limit the [entry](documentation/glossary?term=entry)\
+        \ information that is returned. For example, you may only require definitions\
+        \ and not everything else, or just [pronunciations](documentation/glossary?term=pronunciation).\
+        \ The full list of filters can be retrieved from the filters Utility endpoint.\
+        \ You can also specify values within the filter using '='. For example 'grammaticalFeatures=singular'.\
+        \ Filters can also be combined using a semicolon.\n\n  <div id=\"dictionary_entries_filters\"\
+        ></div>\n"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "source_lang"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        enum:
+        - "en"
+        - "es"
+        - "lv"
+        - "hi"
+        - "sw"
+        - "ta"
+        - "gu"
+        x-exportParamName: "SourceLang"
+      - name: "word_id"
+        in: "path"
+        description: "An Entry identifier. Case-sensitive."
+        required: true
+        type: "string"
+        default: "ace"
+        x-exportParamName: "WordId"
+      - name: "filters"
+        in: "path"
+        description: "Separate filtering conditions using a semicolon. Conditions\
+          \ take values grammaticalFeatures and/or lexicalCategory and are case-sensitive.\
+          \ To list multiple values in single condition divide them with comma."
+        required: true
+        type: "array"
+        items:
+          type: "string"
+          pattern: "(lexicalCategory|grammaticalFeatures)=.+"
+        collectionFormat: "csv"
+        default: "grammaticalFeatures=singular,past;lexicalCategory=noun"
+        x-exportParamName: "Filters"
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response."
+          schema:
+            title: "RetrieveEntryResults"
+            $ref: "#/definitions/RetrieveEntry"
+        404:
+          description: "no entry is found matching supplied source_lang and id\nand/or\
+            \ that entry has no senses with translations in the target language. \n"
+        500:
+          description: "Internal Error. An error occurred while processing the data.\n"
+  /entries/{source_lang}/{word_id}/synonyms:
+    get:
+      tags:
+      - "Thesaurus"
+      summary: "Retrieve words that are similar"
+      description: "\nUse this to retrieve words that are similar in meaning to the\
+        \ input word ([synonym](documentation/glossary?term=synonym)).\n\n  <div id=\"\
+        synonyms\"></div>\n"
+      parameters:
+      - name: "source_lang"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        enum:
+        - "en"
+        x-exportParamName: "SourceLang"
+      - name: "word_id"
+        in: "path"
+        description: "An Entry identifier. Case-sensitive."
+        required: true
+        type: "string"
+        default: "ace"
+        x-exportParamName: "WordId"
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response."
+          schema:
+            title: "ThesaurusResults"
+            $ref: "#/definitions/Thesaurus"
+        404:
+          description: "No entry is found matching supplied id and source_lang or\
+            \ filters are not recognized\n"
+        500:
+          description: "Internal Error. An error occurred while processing the data.\n"
+      externalDocs:
+        description: "find more info here"
+        url: "https://helloreverb.com/about"
+  /entries/{source_lang}/{word_id}/antonyms:
+    get:
+      tags:
+      - "Thesaurus"
+      summary: "Retrieve words that mean the opposite"
+      description: "\nRetrieve words that are opposite in meaning to the input word\
+        \ ([antonym](documentation/glossary?term=thesaurus)).\n\n  <div id=\"antonyms\"\
+        ></div>\n"
+      parameters:
+      - name: "source_lang"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        enum:
+        - "en"
+        x-exportParamName: "SourceLang"
+      - name: "word_id"
+        in: "path"
+        description: "An Entry identifier. Case-sensitive."
+        required: true
+        type: "string"
+        default: "ace"
+        x-exportParamName: "WordId"
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response."
+          schema:
+            title: "ThesaurusResults"
+            $ref: "#/definitions/Thesaurus"
+        404:
+          description: "No entry is found matching supplied id and source_lang or\
+            \ filters are not recognized\n"
+        500:
+          description: "Internal Error. An error occurred while processing the data.\n"
+      externalDocs:
+        description: "find more info here"
+        url: "https://helloreverb.com/about"
+  /entries/{source_lang}/{word_id}/synonyms;antonyms:
+    get:
+      tags:
+      - "Thesaurus"
+      summary: "Retrieve synonyms and antonyms for a given word"
+      description: "\nRetrieve available [synonyms](documentation/glossary?term=thesaurus)\
+        \ and [antonyms](documentation/glossary?term=thesaurus) for a given word and\
+        \ language. \n\n  <div id=\"synonyms_and_antonyms\"></div>\n"
+      parameters:
+      - name: "source_lang"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        enum:
+        - "en"
+        x-exportParamName: "SourceLang"
+      - name: "word_id"
+        in: "path"
+        description: "An Entry identifier. Case-sensitive."
+        required: true
+        type: "string"
+        default: "ace"
+        x-exportParamName: "WordId"
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response."
+          schema:
+            title: "ThesaurusResults"
+            $ref: "#/definitions/Thesaurus"
+        404:
+          description: "No entry is found matching supplied id and source_lang or\
+            \ filters are not recognized\n"
+        500:
+          description: "Internal Error. An error occurred while processing the data.\n"
+      externalDocs:
+        description: "find more info here"
+        url: "https://helloreverb.com/about"
+  /search/{source_lang}:
+    get:
+      tags:
+      - "Search"
+      summary: "Retrieve possible matches to input"
+      description: "\nUse this to retrieve possible [headword](documentation/glossary?term=headword)\
+        \ matches for a given string of text. The results are culculated using headword\
+        \ matching, fuzzy matching, and [lemmatization](documentation/glossary?term=lemma)\
+        \ \n\n  <div id=\"search\"></div>\n"
+      parameters:
+      - name: "source_lang"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        enum:
+        - "en"
+        - "es"
+        - "hi"
+        - "lv"
+        - "sw"
+        - "ta"
+        - "gu"
+        x-exportParamName: "SourceLang"
+      - name: "q"
+        in: "query"
+        description: "Search string"
+        required: false
+        type: "string"
+        default: "eye"
+        x-exportParamName: "Q"
+      - name: "prefix"
+        in: "query"
+        description: "Set prefix to true if you'd like to get results only starting\
+          \ with search string."
+        required: false
+        type: "boolean"
+        default: false
+        enum:
+        - "false"
+        - "true"
+        x-exportParamName: "Prefix"
+      - name: "regions"
+        in: "query"
+        description: "If searching in English, filter words with specific region(s)\
+          \ either 'us' or 'gb'."
+        required: false
+        type: "string"
+        x-exportParamName: "Regions"
+      - name: "limit"
+        in: "query"
+        description: "Limit the number of results per response. Default and maximum\
+          \ limit is 5000."
+        required: false
+        type: "string"
+        x-exportParamName: "Limit"
+      - name: "offset"
+        in: "query"
+        description: "Offset the start number of the result."
+        required: false
+        type: "string"
+        x-exportParamName: "Offset"
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response."
+          schema:
+            title: "WordlistResults"
+            $ref: "#/definitions/Wordlist"
+        404:
+          description: "No entry is found matching supplied id and source_lang or\
+            \ filters are not recognized\n"
+        500:
+          description: "Internal Error. An error occurred while processing the data.\n"
+      externalDocs:
+        description: "find more info here"
+        url: "https://helloreverb.com/about"
+  /search/{source_search_language}/translations={target_search_language}:
+    get:
+      tags:
+      - "Search"
+      summary: "Retrieve possible translation matches to input"
+      description: "\nUse this to find matches in our translation dictionaries.\n\n\
+        \  <div id=\"search_translation\"></div>\n"
+      parameters:
+      - name: "source_search_language"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        enum:
+        - "en"
+        - "es"
+        - "nso"
+        - "zu"
+        - "ms"
+        - "id"
+        - "tn"
+        - "ur"
+        - "de"
+        - "pt"
+        x-exportParamName: "SourceSearchLanguage"
+      - name: "target_search_language"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        enum:
+        - "es"
+        - "nso"
+        - "zu"
+        - "ms"
+        - "id"
+        - "tn"
+        - "ro"
+        - "de"
+        - "pt"
+        x-exportParamName: "TargetSearchLanguage"
+      - name: "q"
+        in: "query"
+        description: "Search string."
+        required: false
+        type: "string"
+        default: "eye"
+        x-exportParamName: "Q"
+      - name: "prefix"
+        in: "query"
+        description: "Set prefix to true if you'd like to get results only starting\
+          \ with search string."
+        required: false
+        type: "boolean"
+        default: false
+        enum:
+        - "false"
+        - "true"
+        x-exportParamName: "Prefix"
+      - name: "regions"
+        in: "query"
+        description: "Filter words with specific region(s) E.g., regions=us. For now\
+          \ gb, us are available for en language."
+        required: false
+        type: "string"
+        x-exportParamName: "Regions"
+      - name: "limit"
+        in: "query"
+        description: "Limit the number of results per response. Default and maximum\
+          \ limit is 5000."
+        required: false
+        type: "string"
+        x-exportParamName: "Limit"
+      - name: "offset"
+        in: "query"
+        description: "Offset the start number of the result."
+        required: false
+        type: "string"
+        x-exportParamName: "Offset"
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response."
+          schema:
+            title: "WordlistResults"
+            $ref: "#/definitions/Wordlist"
+        404:
+          description: "No entry is found matching supplied id and source_lang or\
+            \ filters are not recognized\n"
+        500:
+          description: "Internal Error. An error occurred while processing the data.\n"
+      externalDocs:
+        description: "find more info here"
+        url: "https://helloreverb.com/about"
+  /entries/{source_translation_language}/{word_id}/translations={target_translation_language}:
+    get:
+      tags:
+      - "Translation"
+      summary: "Retrieve translation for a given word"
+      description: "\nUse this to return translations for a given word. In the event\
+        \ that a word in the dataset does not have a direct translation, the response\
+        \ will be a [definition](documentation/glossary?term=entry) in the target\
+        \ language.\n\n  <div id=\"translation\"></div>\n"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "source_translation_language"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        enum:
+        - "en"
+        - "es"
+        - "nso"
+        - "zu"
+        - "ms"
+        - "id"
+        - "tn"
+        - "ur"
+        - "de"
+        - "pt"
+        x-exportParamName: "SourceTranslationLanguage"
+      - name: "word_id"
+        in: "path"
+        description: "The source word"
+        required: true
+        type: "string"
+        default: "change"
+        x-exportParamName: "WordId"
+      - name: "target_translation_language"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        enum:
+        - "es"
+        - "nso"
+        - "zu"
+        - "ms"
+        - "id"
+        - "tn"
+        - "ro"
+        - "de"
+        - "pt"
+        x-exportParamName: "TargetTranslationLanguage"
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response. In case word doesn't have a direct translation\
+            \ a response would be definitions."
+          schema:
+            title: "InflectionsResults"
+            $ref: "#/definitions/RetrieveEntry"
+        400:
+          description: "any of target languages is unknown"
+        404:
+          description: "no entry is found matching supplied source_lang and id\nand/or\
+            \ that entry has no senses with translations in the target language(s).\
+            \ \n"
+        500:
+          description: "Internal Error. An error occurred while processing the data.\n"
+  /wordlist/{source_lang}/{filters_basic}:
+    get:
+      tags:
+      - "Wordlist"
+      summary: "Retrieve a list of words in a category"
+      description: "\nUse this to retrieve a [list of words](documentation/glossary?term=wordlist)\
+        \ for particular [domain](documentation/glossary?term=domain), [lexical category](documentation/glossary?term=lexicalcategory),\
+        \ [register](documentation/glossary?term=registers) and/or [region](documentation/glossary?term=regions).\
+        \ View the full list of possible filters using the filters Utility endpoint.\
+        \  The response only includes [headwords](documentation/glossary?term=headword),\
+        \ not all their possible [inflections](documentation/glossary?term=inflection).\
+        \ If you require a full [wordlist](documentation/glossary?term=wordlist) including\
+        \ [inflected forms](documentation/glossary?term=inflection), contact us and\
+        \ we can help.\n\n  <div id=\"wordlist\"></div>\n"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "source_lang"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        enum:
+        - "en"
+        - "es"
+        - "hi"
+        - "lv"
+        - "sw"
+        - "ta"
+        - "gu"
+        x-exportParamName: "SourceLang"
+      - name: "filters_basic"
+        in: "path"
+        description: "Semicolon separated list of wordlist parameters, presented as\
+          \ value pairs: LexicalCategory, domains, regions, registers. Parameters\
+          \ can take comma separated list of values. E.g., lexicalCategory=noun,adjective;domains=sport.\
+          \ Number of values limited to 5."
+        required: true
+        type: "string"
+        default: "registers=Rare;domains=Art"
+        x-exportParamName: "FiltersBasic"
+      - name: "limit"
+        in: "query"
+        description: "Limit the number of results per response. Default and maximum\
+          \ limit is 5000."
+        required: false
+        type: "string"
+        x-exportParamName: "Limit"
+      - name: "offset"
+        in: "query"
+        description: "Offset the start number of the result"
+        required: false
+        type: "string"
+        x-exportParamName: "Offset"
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response."
+          schema:
+            title: "WordlistResults"
+            $ref: "#/definitions/Wordlist"
+        400:
+          description: "filter has no values; total number of filters > 20."
+        404:
+          description: "No entries is found matching supplied filters or lang or filters\
+            \ is not recognized.\n"
+        500:
+          description: "Internal Error. An error occurred while processing the data.\n"
+  /wordlist/{source_lang}/{filters_advanced}:
+    get:
+      tags:
+      - "Wordlist"
+      summary: "Retrieve list of words for category with advanced options"
+      description: "Use this to apply more complex filters to the [list of words](documentation/glossary?term=wordlist).\
+        \ For example, you may only want to filter out words for which all [senses](documentation/glossary?term=sense)\
+        \ match the filter, or only its 'prime sense'. You can also filter by word\
+        \ length or match by substring (prefix). \n\n  <div id=\"wordlist_advanced\"\
+        ></div>\n"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "source_lang"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        enum:
+        - "en"
+        - "es"
+        - "hi"
+        - "lv"
+        - "sw"
+        - "ta"
+        - "gu"
+        x-exportParamName: "SourceLang"
+      - name: "filters_advanced"
+        in: "path"
+        description: "Semicolon separated list of wordlist parameters, presented as\
+          \ value pairs: LexicalCategory, domains, regions, registers. Parameters\
+          \ can take comma separated list of values. E.g., lexicalCategory=noun,adjective;domains=sport.\
+          \ Number of values limited to 5."
+        required: true
+        type: "string"
+        default: "lexicalCategory=Noun;domains=sport"
+        x-exportParamName: "FiltersAdvanced"
+      - name: "exclude"
+        in: "query"
+        description: "Semicolon separated list of parameters-value pairs (same as\
+          \ filters). Excludes headwords that have any senses in specified exclusion\
+          \ attributes (lexical categories, domains, etc.) from results."
+        required: false
+        type: "string"
+        x-exportParamName: "Exclude"
+      - name: "exclude_senses"
+        in: "query"
+        description: "Semicolon separated list of parameters-value pairs (same as\
+          \ filters). Excludes only those senses of a particular headword that match\
+          \ specified exclusion attributes (lexical categories, domains, etc.) from\
+          \ results but includes the headword if it has other permitted senses."
+        required: false
+        type: "string"
+        x-exportParamName: "ExcludeSenses"
+      - name: "exclude_prime_senses"
+        in: "query"
+        description: "Semicolon separated list of parameters-value pairs (same as\
+          \ filters). Excludes a headword only if the primary sense matches the specified\
+          \ exclusion attributes (registers, domains only)."
+        required: false
+        type: "string"
+        x-exportParamName: "ExcludePrimeSenses"
+      - name: "word_length"
+        in: "query"
+        description: "Parameter to speficy the minimum (>), exact or maximum (<) length\
+          \ of the words required. E.g., >5 - more than 5 chars; <4 - less than 4\
+          \ chars; >5<10 - from 5 to 10 chars; 3 - exactly 3 chars."
+        required: false
+        type: "string"
+        default: ">5,<10"
+        x-exportParamName: "WordLength"
+      - name: "prefix"
+        in: "query"
+        description: "Filter words that start with prefix parameter"
+        required: false
+        type: "string"
+        default: "goal"
+        x-exportParamName: "Prefix"
+      - name: "exact"
+        in: "query"
+        description: "If exact=true wordlist returns a list of entries that exactly\
+          \ matches the search string. Otherwise wordlist lists entries that start\
+          \ with prefix string."
+        required: false
+        type: "boolean"
+        default: false
+        enum:
+        - "false"
+        - "true"
+        x-exportParamName: "Exact"
+      - name: "limit"
+        in: "query"
+        description: "Limit the number of results per response. Default and maximum\
+          \ limit is 5000."
+        required: false
+        type: "string"
+        x-exportParamName: "Limit"
+      - name: "offset"
+        in: "query"
+        description: "Offset the start number of the result."
+        required: false
+        type: "string"
+        x-exportParamName: "Offset"
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response."
+          schema:
+            title: "WordlistResults"
+            $ref: "#/definitions/Wordlist"
+        400:
+          description: "disjoint sets of word_length values (eg <3>10); filter has\
+            \ no values; total number of filters > 20; filters and excludes values\
+            \ can not be the same; source_lang and translations can not be same; word_length\
+            \ conflicts with prefix length."
+        404:
+          description: "No entries is found matching supplied filters or lang or filters\
+            \ is not recognized.\n"
+        500:
+          description: "Internal Error. An error occurred while processing the data.\n"
+  /entries/{source_language}/{word_id}/sentences:
+    get:
+      tags:
+      - "The Sentence Dictionary"
+      summary: "Retrieve corpus sentences for a given word"
+      description: "\nUse this to retrieve sentences extracted from  corpora which\
+        \ show how a word is used in the language. This is available for English and\
+        \ Spanish. For English, the sentences are linked to the correct [sense](documentation/glossary?term=sense)\
+        \ of the word in the dictionary. In Spanish, they are linked at the [headword](documentation/glossary?term=headword)\
+        \ level.\n  <div id=\"sentences\"></div>\n"
+      parameters:
+      - name: "source_language"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        enum:
+        - "en"
+        - "es"
+        x-exportParamName: "SourceLanguage"
+      - name: "word_id"
+        in: "path"
+        description: "An Entry identifier. Case-sensitive."
+        required: true
+        type: "string"
+        default: "ace"
+        x-exportParamName: "WordId"
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response."
+          schema:
+            title: "SentencesResults"
+            $ref: "#/definitions/SentencesResults"
+        404:
+          description: "No entry is found matching supplied id and source_language\n"
+        500:
+          description: "Internal Error. An error occurred while processing the data.\n"
+      externalDocs:
+        description: "find more info here"
+        url: "https://helloreverb.com/about"
+  /stats/frequency/word/{source_lang}/:
+    get:
+      tags:
+      - "LexiStats"
+      summary: "Retrieve the frequency of a word derived from a corpus."
+      description: "This endpoint provides the frequency of a given word. When multiple\
+        \ database records match the query parameters, the returned frequency is the\
+        \ sum of the individual frequencies. For example, if the query parameters\
+        \ are lemma=test, the returned frequency will include the verb \"test\", the\
+        \ noun \"test\" and the adjective \"test\" in all forms (Test, tested, testing,\
+        \ etc.) <br> <br> If you are interested in the frequency of the word \"test\"\
+        \ but want to exclude other forms (e.g., tested) use the option trueCase=test.\
+        \ Normally, the word \"test\" will be spelt with a capital letter at the beginning\
+        \ of a sentence. The option trueCase will ignore this and it will count \"\
+        Test\" and \"test\" as the same token. If you are interested in frequencies\
+        \ of \"Test\" and \"test\", use the option wordform=test or wordform=Test.\
+        \ Note that trueCase is not just a lower case of the word as some words are\
+        \ genuinely spelt with a capital letter such as the word \"press\" in Oxford\
+        \ University Press. <br> <br> Parameters can be provided in PATH, GET or POST\
+        \ (form or json). The parameters in PATH are overriden by parameters in GET,\
+        \ POST and json (in that order). In PATH, individual options are separated\
+        \ by semicolon and values are separated by commas (where multiple values can\
+        \ be used). Examples:\n* PATH: /lemma=test;lexicalCategory=noun\n* GET: /?lemma=test&lexicalCategory=noun\n\
+        * POST (json):\n\n  ```javascript\n    {\n      \"lemma\": \"test\",\n   \
+        \   \"lexicalCategory\": \"noun\"\n    }\n  ```\n\n<br> One of the options\
+        \ wordform/trueCase/lemma/lexicalCategory has to be provided.\n"
+      produces:
+      - "application/json"
+      - "text/csv"
+      parameters:
+      - name: "source_lang"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        default: "en"
+        x-exportParamName: "SourceLang"
+      - name: "corpus"
+        in: "query"
+        description: "For corpora other than 'nmc' (New Monitor Corpus) please contact\
+          \ api@oxforddictionaries.com"
+        required: false
+        type: "string"
+        default: "nmc"
+        x-exportParamName: "Corpus"
+      - name: "wordform"
+        in: "query"
+        description: "The written form of the word to look up (preserving case e.g.,\
+          \ Books vs books)"
+        required: false
+        type: "string"
+        x-exportParamName: "Wordform"
+      - name: "trueCase"
+        in: "query"
+        description: "The written form of the word to look up with normalised case\
+          \ (Books --> books)"
+        required: false
+        type: "string"
+        x-exportParamName: "TrueCase"
+      - name: "lemma"
+        in: "query"
+        description: "The lemma of the word to look up (e.g., Book, booked, books\
+          \ all have the lemma \"book\")"
+        required: false
+        type: "string"
+        default: "test"
+        x-exportParamName: "Lemma"
+      - name: "lexicalCategory"
+        in: "query"
+        description: "The lexical category of the word(s) to look up (e.g., noun or\
+          \ verb)"
+        required: false
+        type: "string"
+        x-exportParamName: "LexicalCategory"
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response."
+          schema:
+            title: "StatsWordResult"
+            $ref: "#/definitions/StatsWordResult"
+        400:
+          description: "You need to specify at least one option. Try one of 'wordform,\
+            \ lemma, trueCase, lexicalCategory'.\n"
+        404:
+          description: "language is not in...\n"
+        500:
+          description: "Internal Error. An error occurred while processing the data.\n"
+  /stats/frequency/words/{source_lang}/:
+    get:
+      tags:
+      - "LexiStats"
+      summary: "Retrieve a list of frequencies of a word/words derived from a corpus."
+      description: "This endpoint provides a list of frequencies for a given word\
+        \ or words. Unlike the /word/ endpoint, the results are split into the smallest\
+        \ units. <br> <br> To exclude a specific value, prepend it with the minus\
+        \ sign ('-'). For example, to get frequencies of the lemma 'happy' but exclude\
+        \ superlative forms (i.e., happiest) you could use options 'lemma=happy;grammaticalFeatures=-degreeType:superlative'.\
+        \ <br> <br> Parameters can be provided in PATH, GET or POST (form or json).\
+        \ The parameters in PATH are overridden by parameters in GET, POST and json\
+        \ (in that order). In PATH, individual options are separated by semicolon\
+        \ and values are separated by commas (where multiple values can be used).\
+        \ <br> <br> The parameters wordform/trueCase/lemma/lexicalCategory also exist\
+        \ in a plural form, taking a lists of items. Examples:\n* PATH: /wordforms=happy,happier,happiest\n\
+        * GET: /?wordforms=happy&wordforms=happier&wordforms=happiest\n* POST (json):\n\
+        ```javascript\n  {\n    \"wordforms\": [\"happy\", \"happier\", \"happiest\"\
+        ]\n  }\n```\nA mor complex example of retrieving frequencies of multiple lemmas:\n\
+        ```\n  {\n      \"lemmas\": [\"happy\", \"content\", \"cheerful\", \"cheery\"\
+        , \"merry\", \"joyful\", \"ecstatic\"],\n      \"grammaticalFeatures\": {\n\
+        \          \"adjectiveFunctionType\": \"predicative\"\n      },\n      \"\
+        lexicalCategory\": \"adjective\",\n      \"sort\": [\"lemma\", \"-frequency\"\
+        ]\n  }\n```\nSome queries with \"collate\" or \"sort\" can exceed the 30s\
+        \ timeout, in which case the API will return an error message with status\
+        \ code 503. You mitigate this by providing additional restrictions such as\
+        \ \"minFrequency\" and \"maxFrequency\". <br> <br> You can use the parameters\
+        \ \"offset\" and \"limit\" to paginate through large result sets. For convenience,\
+        \ the HTTP header \"Link\" is set on the response to provide links to \"first\"\
+        , \"self\", \"next\", \"prev\" and \"last\" pages of results (depending on\
+        \ the context). For example, if the result set contains 50 results and the\
+        \ parameter \"limit\" is set to 25, the Links header will contain an URL for\
+        \ the first 25 results and the next 25 results. <br> <br> Some libraries such\
+        \ as python's `requests` can parse the header automatically and offer a convenient\
+        \ way of iterating through the results. For example:\n```python def get_all_results(url):\n\
+        \    while url:\n        r = requests.get(url)\n        r.raise_for_status()\n\
+        \        for item in r.json()['results']:\n          yield item\n        url\
+        \ = r.links.get('next', {}).get('url')\n```\n"
+      produces:
+      - "application/json"
+      - "text/csv"
+      parameters:
+      - name: "source_lang"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        default: "en"
+        x-exportParamName: "SourceLang"
+      - name: "corpus"
+        in: "query"
+        description: "For corpora other than 'nmc' (New Monitor Corpus) please contact\
+          \ api@oxforddictionaries.com"
+        required: false
+        type: "string"
+        default: "nmc"
+        x-exportParamName: "Corpus"
+      - name: "wordform"
+        in: "query"
+        description: "The written form of the word to look up (preserving case e.g.,\
+          \ Book vs book)"
+        required: false
+        type: "string"
+        x-exportParamName: "Wordform"
+      - name: "trueCase"
+        in: "query"
+        description: "The written form of the word to look up with normalised case\
+          \ (Books --> books)"
+        required: false
+        type: "string"
+        x-exportParamName: "TrueCase"
+      - name: "lemma"
+        in: "query"
+        description: "The lemma of the word to look up (e.g., Book, booked, books\
+          \ all have the lemma \"book\")"
+        required: false
+        type: "string"
+        default: "test"
+        x-exportParamName: "Lemma"
+      - name: "lexicalCategory"
+        in: "query"
+        description: "The lexical category of the word(s) to look up (e.g., adjective\
+          \ or noun)"
+        required: false
+        type: "string"
+        x-exportParamName: "LexicalCategory"
+      - name: "grammaticalFeatures"
+        in: "query"
+        description: "The grammatical features of the word(s) to look up entered as\
+          \ a list of k:v (e.g., degree_type:comparative)"
+        required: false
+        type: "string"
+        x-exportParamName: "GrammaticalFeatures"
+      - name: "sort"
+        in: "query"
+        description: "sort the resulting list by wordform, trueCase, lemma, lexicalCategory,\
+          \ frequency, normalizedFrequency. Descending order is achieved by prepending\
+          \ the value with the minus sign ('-'). Multiple values can be separated\
+          \ by commas (e.g., sort=lexicalCategory,-frequency)"
+        required: false
+        type: "string"
+        x-exportParamName: "Sort"
+      - name: "collate"
+        in: "query"
+        description: "collate the results by wordform, trueCase, lemma, lexicalCategory.\
+          \ Multiple values can be separated by commas (e.g., collate=trueCase,lemma,lexicalCategory)."
+        required: false
+        type: "string"
+        x-exportParamName: "Collate"
+      - name: "minFrequency"
+        in: "query"
+        description: "Restrict the query to entries with frequency of at least `minFrequency`"
+        required: false
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "MinFrequency"
+      - name: "maxFrequency"
+        in: "query"
+        description: "Restrict the query to entries with frequency of at most `maxFrequency`"
+        required: false
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "MaxFrequency"
+      - name: "minNormalizedFrequency"
+        in: "query"
+        description: "Restrict the query to entries with frequency of at least `minNormalizedFrequency`"
+        required: false
+        type: "number"
+        format: "float"
+        x-exportParamName: "MinNormalizedFrequency"
+      - name: "maxNormalizedFrequency"
+        in: "query"
+        description: "Restrict the query to entries with frequency of at most `maxNormalizedFrequency`"
+        required: false
+        type: "number"
+        format: "float"
+        x-exportParamName: "MaxNormalizedFrequency"
+      - name: "offset"
+        in: "query"
+        description: "pagination - results offset"
+        required: false
+        type: "integer"
+        default: 0
+        format: "int64"
+        x-exportParamName: "Offset"
+      - name: "limit"
+        in: "query"
+        description: "pagination - results limit"
+        required: false
+        type: "integer"
+        default: 100
+        format: "int64"
+        x-exportParamName: "Limit"
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response."
+          schema:
+            title: "StatsWordResultList"
+            $ref: "#/definitions/StatsWordResultList"
+        400:
+          description: "Invalid option name...; Option ... must have a value.; The\
+            \ option 'minFrequency' has to have an non-negative integer parameter.;\
+            \ The option 'maxFrequency' has to have an non-negative integer parameter.;\
+            \ The option 'limit' has to have an non-negative integer parameter.; The\
+            \ option 'offset' has to have an non-negative integer parameter."
+        404:
+          description: "language is not in...\n"
+        500:
+          description: "Internal Error. An error occurred while processing the data.\n"
+  /stats/frequency/ngrams/{source_lang}/{corpus}/{ngram-size}/:
+    get:
+      tags:
+      - "LexiStats"
+      summary: "Retrieve the frequency of ngrams (1-4) derived from a corpus"
+      description: "This endpoint returns frequencies of ngrams of size 1-4. That\
+        \ is the number of times a word (ngram size = 1) or words (ngram size > 1)\
+        \ appear in the corpus. Ngrams are case sensitive (\"I AM\" and \"I am\" will\
+        \ have different frequency) and frequencies are calculated per word (true\
+        \ case) so \"the book\" and \"the books\" are two different ngrams. The results\
+        \ can be filtered based on query parameters. <br> <br> Parameters can be provided\
+        \ in PATH, GET or POST (form or json). The parameters in PATH are overridden\
+        \ by parameters in GET, POST and json (in that order). In PATH, individual\
+        \ options are separated by semicolon and values are separated by commas (where\
+        \ multiple values can be used). <br> <br> Example for bigrams (ngram of size\
+        \ 2):\n* PATH: /tokens=a word,another word\n* GET: /?tokens=a word&tokens=another\
+        \ word\n* POST (json):\n\n  ```javascript\n    {\n        \"tokens\": [\"\
+        a word\", \"another word\"]\n    }\n  ```\n\nEither \"tokens\" or \"contains\"\
+        \ has to be provided. <br> <br> Some queries with \"contains\" or \"sort\"\
+        \ can exceed the 30s timeout, in which case the API will return an error message\
+        \ with status code 503. You mitigate this by providing additional restrictions\
+        \ such as \"minFrequency\" and \"maxFrequency\". <br> <br> You can use the\
+        \ parameters \"offset\" and \"limit\" to paginate through large result sets.\
+        \ For convenience, the HTTP header \"Link\" is set on the response to provide\
+        \ links to \"first\", \"self\", \"next\", \"prev\" and \"last\" pages of results\
+        \ (depending on the context). For example, if the result set contains 50 results\
+        \ and the parameter \"limit\" is set to 25, the Links header will contain\
+        \ an URL for the first 25 results and the next 25 results. <br> <br> Some\
+        \ libraries such as python's `requests` can parse the header automatically\
+        \ and offer a convenient way of iterating through the results. For example:\n\
+        ```python def get_all_results(url):\n    while url:\n        r = requests.get(url)\n\
+        \        r.raise_for_status()\n        for item in r.json()['results']:\n\
+        \          yield item\n        url = r.links.get('next', {}).get('url')\n\
+        ```\n"
+      produces:
+      - "application/json"
+      - "text/csv"
+      parameters:
+      - name: "source_lang"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        default: "en"
+        x-exportParamName: "SourceLang"
+      - name: "corpus"
+        in: "path"
+        description: "For corpora other than 'nmc' (New Monitor Corpus) please contact\
+          \ api@oxforddictionaries.com"
+        required: true
+        type: "string"
+        default: "nmc"
+        x-exportParamName: "Corpus"
+      - name: "ngram-size"
+        in: "path"
+        description: "the size of ngrams requested (1-4)"
+        required: true
+        type: "string"
+        default: "2"
+        x-exportParamName: "NgramSize"
+      - name: "tokens"
+        in: "query"
+        description: "List of tokens to filter. The tokens are separated by spaces,\
+          \ the list items are separated by comma (e.g., for bigrams (n=2) tokens=this\
+          \ is,this was, this will)"
+        required: false
+        type: "string"
+        default: "a word"
+        x-exportParamName: "Tokens"
+      - name: "contains"
+        in: "query"
+        description: "Find ngrams containing the given token(s). Use comma or space\
+          \ as token separators; the order of tokens is irrelevant."
+        required: false
+        type: "string"
+        x-exportParamName: "Contains"
+      - name: "punctuation"
+        in: "query"
+        description: "Flag specifying whether to lookup ngrams that include punctuation\
+          \ or not (possible values are \"true\" and \"false\"; default is \"false\"\
+          )"
+        required: false
+        type: "string"
+        x-exportParamName: "Punctuation"
+      - name: "format"
+        in: "query"
+        description: "Option specifying whether tokens should be returned as a single\
+          \ string (option \"google\") or as a list of strings (option \"oup\")"
+        required: false
+        type: "string"
+        default: "oup"
+        x-exportParamName: "Format"
+      - name: "minFrequency"
+        in: "query"
+        description: "Restrict the query to entries with frequency of at least `minFrequency`"
+        required: false
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "MinFrequency"
+      - name: "maxFrequency"
+        in: "query"
+        description: "Restrict the query to entries with frequency of at most `maxFrequency`"
+        required: false
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "MaxFrequency"
+      - name: "minDocumentFrequency"
+        in: "query"
+        description: "Restrict the query to entries that appear in at least `minDocumentFrequency`\
+          \ documents"
+        required: false
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "MinDocumentFrequency"
+      - name: "maxDocumentFrequency"
+        in: "query"
+        description: "Restrict the query to entries that appera in at most `maxDocumentFrequency`\
+          \ documents"
+        required: false
+        type: "integer"
+        format: "int64"
+        x-exportParamName: "MaxDocumentFrequency"
+      - name: "collate"
+        in: "query"
+        description: "collate the results by wordform, trueCase, lemma, lexicalCategory.\
+          \ Multiple values can be separated by commas (e.g., collate=trueCase,lemma,lexicalCategory)."
+        required: false
+        type: "string"
+        x-exportParamName: "Collate"
+      - name: "sort"
+        in: "query"
+        description: "sort the resulting list by wordform, trueCase, lemma, lexicalCategory,\
+          \ frequency, normalizedFrequency. Descending order is achieved by prepending\
+          \ the value with the minus sign ('-'). Multiple values can be separated\
+          \ by commas (e.g., sort=lexicalCategory,-frequency)"
+        required: false
+        type: "string"
+        x-exportParamName: "Sort"
+      - name: "offset"
+        in: "query"
+        description: "pagination - results offset"
+        required: false
+        type: "integer"
+        default: 0
+        format: "int64"
+        x-exportParamName: "Offset"
+      - name: "limit"
+        in: "query"
+        description: "pagination - results limit"
+        required: false
+        type: "integer"
+        default: 100
+        format: "int64"
+        x-exportParamName: "Limit"
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response."
+          schema:
+            title: "NgramsResult"
+            $ref: "#/definitions/NgramsResult"
+        400:
+          description: "Invalid option name...\n"
+        404:
+          description: "language is not in...\n"
+        500:
+          description: "Internal Error. An error occurred while processing the data.\n"
+  /languages:
+    get:
+      tags:
+      - "Utility"
+      summary: "Lists available dictionaries"
+      description: "Returns a list of monolingual and bilingual language datasets\
+        \ available in the API\n"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "sourceLanguage"
+        in: "query"
+        description: "IANA language code. If provided output will be filtered by sourceLanguage."
+        required: false
+        type: "string"
+        enum:
+        - "es"
+        - "en"
+        - "lv"
+        - "nso"
+        - "zu"
+        - "ms"
+        - "id"
+        - "tn"
+        - "ur"
+        - "hi"
+        - "sw"
+        - "ro"
+        - "de"
+        - "pt"
+        - "ta"
+        - "gu"
+        x-exportParamName: "SourceLanguage"
+      - name: "targetLanguage"
+        in: "query"
+        description: "IANA language code. If provided output will be filtered by sourceLanguage."
+        required: false
+        type: "string"
+        enum:
+        - "es"
+        - "en"
+        - "lv"
+        - "nso"
+        - "zu"
+        - "ms"
+        - "id"
+        - "tn"
+        - "ur"
+        - "hi"
+        - "sw"
+        - "ro"
+        x-exportParamName: "TargetLanguage"
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response."
+          schema:
+            title: "LanguagesResults"
+            $ref: "#/definitions/Languages"
+        404:
+          description: "Unknown sourceLanguage and/or targetLanguage."
+        500:
+          description: "Internal Error. An error occurred while processing the data."
+  /filters:
+    get:
+      tags:
+      - "Utility"
+      summary: "Lists available filters"
+      description: "Returns a list of all the valid filters to construct API calls.\n"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response."
+          schema:
+            title: "FiltersResults"
+            $ref: "#/definitions/Filters"
+        500:
+          description: "Internal Error. An error occurred while processing the data."
+  /filters/{endpoint}:
+    get:
+      tags:
+      - "Utility"
+      summary: "Lists available filters for specific endpoint"
+      description: "Returns a list of all the valid filters for a given endpoint to\
+        \ construct API calls.\n"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "endpoint"
+        in: "path"
+        description: "Name of the endpoint."
+        required: true
+        type: "string"
+        enum:
+        - "entries"
+        - "inflections"
+        - "translations"
+        x-exportParamName: "Endpoint"
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response."
+          schema:
+            title: "FiltersResults"
+            $ref: "#/definitions/Filters"
+        404:
+          description: "Unknown endpoint."
+        500:
+          description: "Internal Error. An error occurred while processing the data."
+  /lexicalcategories/{language}:
+    get:
+      tags:
+      - "Utility"
+      summary: "Lists available lexical categories in a dataset"
+      description: "Returns a list of available [lexical categories](documentation/glossary?term=lexicalcategory)\
+        \ for a given language dataset.\n"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "language"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        enum:
+        - "es"
+        - "en"
+        - "lv"
+        - "nso"
+        - "zu"
+        - "ms"
+        - "id"
+        - "tn"
+        - "ur"
+        - "hi"
+        - "sw"
+        - "ro"
+        - "de"
+        - "pt"
+        - "ta"
+        - "gu"
+        x-exportParamName: "Language"
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response."
+          schema:
+            title: "LexicalCategoriesResults"
+            $ref: "#/definitions/UtilityLabels"
+        404:
+          description: "Unknown language."
+        500:
+          description: "Internal Error. An error occurred while processing the data."
+  /registers/{source_language}:
+    get:
+      tags:
+      - "Utility"
+      summary: "Lists available registers in a  monolingual dataset"
+      description: "Returns a list of the available [registers](documentation/glossary?term=registers)\
+        \ for a given monolingual language dataset.\n"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "source_language"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        enum:
+        - "en"
+        - "es"
+        - "hi"
+        - "id"
+        - "lv"
+        - "ms"
+        - "sw"
+        - "ur"
+        - "de"
+        - "pt"
+        - "ta"
+        - "gu"
+        x-exportParamName: "SourceLanguage"
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response."
+          schema:
+            title: "RegistersResults"
+            $ref: "#/definitions/UtilityLabels"
+        404:
+          description: "Unknown source_language."
+        500:
+          description: "Internal Error. An error occurred while processing the data."
+  /registers/{source_register_language}/{target_register_language}:
+    get:
+      tags:
+      - "Utility"
+      summary: "Lists available registers in a bilingual dataset"
+      description: "Returns a list of the available [registers](documentation/glossary?term=registers)\
+        \ for a given bilingual language dataset.\n"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "source_register_language"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        enum:
+        - "en"
+        - "es"
+        - "ms"
+        - "id"
+        - "ur"
+        - "de"
+        - "pt"
+        x-exportParamName: "SourceRegisterLanguage"
+      - name: "target_register_language"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        enum:
+        - "es"
+        - "en"
+        - "nso"
+        - "zu"
+        - "ms"
+        - "id"
+        - "tn"
+        - "ro"
+        - "de"
+        - "pt"
+        x-exportParamName: "TargetRegisterLanguage"
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response."
+          schema:
+            title: "RegistersResults"
+            $ref: "#/definitions/UtilityLabels"
+        400:
+          description: "source_language and target_language are same."
+        404:
+          description: "Unknown source_language and/or target_language."
+        500:
+          description: "Internal Error. An error occurred while processing the data."
+  /domains/{source_language}:
+    get:
+      tags:
+      - "Utility"
+      summary: "Lists available domains in a monolingual dataset"
+      description: "Returns a list of the available [domains](documentation/glossary?term=domain)\
+        \ for a given monolingual language dataset.\n"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "source_language"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        enum:
+        - "en"
+        - "es"
+        - "nso"
+        - "zu"
+        - "hi"
+        - "sw"
+        - "ur"
+        - "de"
+        - "pt"
+        - "ta"
+        - "gu"
+        x-exportParamName: "SourceLanguage"
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response."
+          schema:
+            title: "DomainsResults"
+            $ref: "#/definitions/UtilityLabels"
+        404:
+          description: "Unknown source_language."
+  /domains/{source_domains_language}/{target_domains_language}:
+    get:
+      tags:
+      - "Utility"
+      summary: "Lists available domains in a bilingual dataset"
+      description: "Returns a list of the available [domains](documentation/glossary?term=domain)\
+        \ for a given bilingual language dataset.\n"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "source_domains_language"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        enum:
+        - "en"
+        - "es"
+        - "nso"
+        - "zu"
+        - "ur"
+        - "de"
+        - "pt"
+        x-exportParamName: "SourceDomainsLanguage"
+      - name: "target_domains_language"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        enum:
+        - "es"
+        - "nso"
+        - "zu"
+        - "ms"
+        - "id"
+        - "tn"
+        - "ro"
+        - "de"
+        - "pt"
+        x-exportParamName: "TargetDomainsLanguage"
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response."
+          schema:
+            title: "DomainsResults"
+            $ref: "#/definitions/UtilityLabels"
+        400:
+          description: "source_language and target_language are same."
+        404:
+          description: "Unknown source_language and/or target_language."
+  /regions/{source_language}:
+    get:
+      tags:
+      - "Utility"
+      summary: "Lists available regions in a monolingual dataset"
+      description: "Returns a list of the available [regions](documentation/glossary?term=regions)\
+        \ for a given monolingual language dataset.\n"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "source_language"
+        in: "path"
+        description: "IANA language code"
+        required: true
+        type: "string"
+        enum:
+        - "en"
+        x-exportParamName: "SourceLanguage"
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response."
+          schema:
+            title: "RegionsResults"
+            $ref: "#/definitions/Regions"
+        404:
+          description: "Unknown source_language."
+  /grammaticalFeatures/{source_language}:
+    get:
+      tags:
+      - "Utility"
+      summary: "Lists available grammatical features in a dataset"
+      description: "Returns a list of the available [grammatical features](documentation/glossary?term=grammaticalfeatures)\
+        \ for a given language dataset.\n"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "source_language"
+        in: "path"
+        description: "IANA language code. If provided output will be filtered by sourceLanguage."
+        required: true
+        type: "string"
+        enum:
+        - "en"
+        - "es"
+        - "lv"
+        - "nso"
+        - "zu"
+        - "ms"
+        - "tn"
+        - "ur"
+        - "hi"
+        - "sw"
+        - "de"
+        - "pt"
+        - "ta"
+        - "gu"
+        x-exportParamName: "SourceLanguage"
+      - name: "app_id"
+        in: "header"
+        description: "App ID Authentication Parameter"
+        required: true
+        type: "string"
+        default: "5037d509"
+        x-data-threescale-name: "app_ids"
+        x-exportParamName: "AppId"
+      - name: "app_key"
+        in: "header"
+        description: "App Key Authentication Parameter"
+        required: true
+        type: "string"
+        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+        x-data-threescale-name: "app_keys"
+        x-exportParamName: "AppKey"
+      responses:
+        200:
+          description: "Successful response."
+          schema:
+            title: "RegistersResults"
+            $ref: "#/definitions/UtilityLabels"
+        404:
+          description: "Unknown source_language."
+definitions:
+  ArrayOfRelatedEntries:
+    type: "array"
+    description: "A list of written or spoken words"
+    items:
+      $ref: "#/definitions/ArrayOfRelatedEntries_inner"
+  CategorizedTextList:
+    type: "array"
+    description: "various types of notes that appear"
+    items:
+      $ref: "#/definitions/CategorizedTextList_inner"
+  CrossReferencesList:
+    type: "array"
+    description: "A reference to another word that is closely related, might provide\
+      \ additional information about the subject, has a variant spelling or is an\
+      \ abbreviated form of it."
+    items:
+      $ref: "#/definitions/CrossReferencesList_inner"
+  Entry:
+    type: "object"
+    properties:
+      etymologies:
+        description: "The origin of the word and the way in which its meaning has\
+          \ changed throughout history"
+        $ref: "#/definitions/arrayofstrings"
+      grammaticalFeatures:
+        $ref: "#/definitions/GrammaticalFeaturesList"
+      homographNumber:
+        type: "string"
+        description: "Identifies the homograph grouping. The last two digits identify\
+          \ different entries of the same homograph. The first one/two digits identify\
+          \ the homograph number."
+      notes:
+        $ref: "#/definitions/CategorizedTextList"
+      pronunciations:
+        $ref: "#/definitions/PronunciationsList"
+      senses:
+        type: "array"
+        description: "Complete list of senses"
+        items:
+          $ref: "#/definitions/Sense"
+        minItems: 1
+      variantForms:
+        description: "Various words that are used interchangeably depending on the\
+          \ context, e.g 'a' and 'an'"
+        $ref: "#/definitions/VariantFormsList"
+    example:
+      grammaticalFeatures: ""
+      homographNumber: "homographNumber"
+      notes: ""
+      senses:
+      - notes: ""
+        regions: ""
+        domains: ""
+        subsenses:
+        - null
+        - null
+        crossReferenceMarkers: ""
+        examples: ""
+        translations: ""
+        registers: ""
+        variantForms: ""
+        id: "id"
+        thesaurusLinks:
+        - sense_id: "sense_id"
+          entry_id: "entry_id"
+        - sense_id: "sense_id"
+          entry_id: "entry_id"
+        crossReferences: ""
+        definitions: ""
+        short_definitions: ""
+        pronunciations: ""
+      - notes: ""
+        regions: ""
+        domains: ""
+        subsenses:
+        - null
+        - null
+        crossReferenceMarkers: ""
+        examples: ""
+        translations: ""
+        registers: ""
+        variantForms: ""
+        id: "id"
+        thesaurusLinks:
+        - sense_id: "sense_id"
+          entry_id: "entry_id"
+        - sense_id: "sense_id"
+          entry_id: "entry_id"
+        crossReferences: ""
+        definitions: ""
+        short_definitions: ""
+        pronunciations: ""
+      etymologies: ""
+      variantForms: ""
+      pronunciations: ""
+  ExamplesList:
+    type: "array"
+    description: "A list of written or spoken rendering of examples of use of a word\
+      \ or text"
+    items:
+      $ref: "#/definitions/ExamplesList_inner"
+  Filters:
+    properties:
+      metadata:
+        type: "object"
+        description: "Additional Information provided by OUP"
+        properties: {}
+      results:
+        $ref: "#/definitions/Filters_results"
+    description: "Schema for the Filters endpoint."
+    example:
+      metadata: "{}"
+      results:
+        entries: ""
+        wordlist: ""
+        translations: ""
+        inflections: ""
+  GrammaticalFeaturesList:
+    type: "array"
+    description: "The different forms are correlated with meanings or functions which\
+      \ we text as 'features'"
+    items:
+      $ref: "#/definitions/GrammaticalFeaturesList_inner"
+  HeadwordEntry:
+    type: "object"
+    required:
+    - "id"
+    - "language"
+    - "lexicalEntries"
+    - "word"
+    properties:
+      id:
+        type: "string"
+        description: "The identifier of a word"
+      language:
+        type: "string"
+        description: "IANA language code"
+      lexicalEntries:
+        type: "array"
+        description: "A grouping of various senses in a specific language, and a lexical\
+          \ category that relates to a word"
+        items:
+          $ref: "#/definitions/lexicalEntry"
+        minItems: 1
+      pronunciations:
+        $ref: "#/definitions/PronunciationsList"
+      type:
+        type: "string"
+        description: "The json object type. Could be 'headword', 'inflection' or 'phrase'"
+      word:
+        type: "string"
+        description: "A given written or spoken realisation of a an entry, lowercased."
+    description: "Description of a word"
+    example:
+      lexicalEntries:
+      - derivatives: ""
+        entries:
+        - grammaticalFeatures: ""
+          homographNumber: "homographNumber"
+          notes: ""
+          senses:
+          - notes: ""
+            regions: ""
+            domains: ""
+            subsenses:
+            - null
+            - null
+            crossReferenceMarkers: ""
+            examples: ""
+            translations: ""
+            registers: ""
+            variantForms: ""
+            id: "id"
+            thesaurusLinks:
+            - sense_id: "sense_id"
+              entry_id: "entry_id"
+            - sense_id: "sense_id"
+              entry_id: "entry_id"
+            crossReferences: ""
+            definitions: ""
+            short_definitions: ""
+            pronunciations: ""
+          - notes: ""
+            regions: ""
+            domains: ""
+            subsenses:
+            - null
+            - null
+            crossReferenceMarkers: ""
+            examples: ""
+            translations: ""
+            registers: ""
+            variantForms: ""
+            id: "id"
+            thesaurusLinks:
+            - sense_id: "sense_id"
+              entry_id: "entry_id"
+            - sense_id: "sense_id"
+              entry_id: "entry_id"
+            crossReferences: ""
+            definitions: ""
+            short_definitions: ""
+            pronunciations: ""
+          etymologies: ""
+          variantForms: ""
+          pronunciations: ""
+        - grammaticalFeatures: ""
+          homographNumber: "homographNumber"
+          notes: ""
+          senses:
+          - notes: ""
+            regions: ""
+            domains: ""
+            subsenses:
+            - null
+            - null
+            crossReferenceMarkers: ""
+            examples: ""
+            translations: ""
+            registers: ""
+            variantForms: ""
+            id: "id"
+            thesaurusLinks:
+            - sense_id: "sense_id"
+              entry_id: "entry_id"
+            - sense_id: "sense_id"
+              entry_id: "entry_id"
+            crossReferences: ""
+            definitions: ""
+            short_definitions: ""
+            pronunciations: ""
+          - notes: ""
+            regions: ""
+            domains: ""
+            subsenses:
+            - null
+            - null
+            crossReferenceMarkers: ""
+            examples: ""
+            translations: ""
+            registers: ""
+            variantForms: ""
+            id: "id"
+            thesaurusLinks:
+            - sense_id: "sense_id"
+              entry_id: "entry_id"
+            - sense_id: "sense_id"
+              entry_id: "entry_id"
+            crossReferences: ""
+            definitions: ""
+            short_definitions: ""
+            pronunciations: ""
+          etymologies: ""
+          variantForms: ""
+          pronunciations: ""
+        grammaticalFeatures: ""
+        derivativeOf: ""
+        notes: ""
+        lexicalCategory: "lexicalCategory"
+        language: "language"
+        variantForms: ""
+        text: "text"
+        pronunciations: ""
+      - derivatives: ""
+        entries:
+        - grammaticalFeatures: ""
+          homographNumber: "homographNumber"
+          notes: ""
+          senses:
+          - notes: ""
+            regions: ""
+            domains: ""
+            subsenses:
+            - null
+            - null
+            crossReferenceMarkers: ""
+            examples: ""
+            translations: ""
+            registers: ""
+            variantForms: ""
+            id: "id"
+            thesaurusLinks:
+            - sense_id: "sense_id"
+              entry_id: "entry_id"
+            - sense_id: "sense_id"
+              entry_id: "entry_id"
+            crossReferences: ""
+            definitions: ""
+            short_definitions: ""
+            pronunciations: ""
+          - notes: ""
+            regions: ""
+            domains: ""
+            subsenses:
+            - null
+            - null
+            crossReferenceMarkers: ""
+            examples: ""
+            translations: ""
+            registers: ""
+            variantForms: ""
+            id: "id"
+            thesaurusLinks:
+            - sense_id: "sense_id"
+              entry_id: "entry_id"
+            - sense_id: "sense_id"
+              entry_id: "entry_id"
+            crossReferences: ""
+            definitions: ""
+            short_definitions: ""
+            pronunciations: ""
+          etymologies: ""
+          variantForms: ""
+          pronunciations: ""
+        - grammaticalFeatures: ""
+          homographNumber: "homographNumber"
+          notes: ""
+          senses:
+          - notes: ""
+            regions: ""
+            domains: ""
+            subsenses:
+            - null
+            - null
+            crossReferenceMarkers: ""
+            examples: ""
+            translations: ""
+            registers: ""
+            variantForms: ""
+            id: "id"
+            thesaurusLinks:
+            - sense_id: "sense_id"
+              entry_id: "entry_id"
+            - sense_id: "sense_id"
+              entry_id: "entry_id"
+            crossReferences: ""
+            definitions: ""
+            short_definitions: ""
+            pronunciations: ""
+          - notes: ""
+            regions: ""
+            domains: ""
+            subsenses:
+            - null
+            - null
+            crossReferenceMarkers: ""
+            examples: ""
+            translations: ""
+            registers: ""
+            variantForms: ""
+            id: "id"
+            thesaurusLinks:
+            - sense_id: "sense_id"
+              entry_id: "entry_id"
+            - sense_id: "sense_id"
+              entry_id: "entry_id"
+            crossReferences: ""
+            definitions: ""
+            short_definitions: ""
+            pronunciations: ""
+          etymologies: ""
+          variantForms: ""
+          pronunciations: ""
+        grammaticalFeatures: ""
+        derivativeOf: ""
+        notes: ""
+        lexicalCategory: "lexicalCategory"
+        language: "language"
+        variantForms: ""
+        text: "text"
+        pronunciations: ""
+      language: "language"
+      id: "id"
+      type: "type"
+      word: "word"
+      pronunciations: ""
+  HeadwordLemmatron:
+    type: "object"
+    required:
+    - "id"
+    - "language"
+    - "lexicalEntries"
+    - "word"
+    properties:
+      id:
+        type: "string"
+        description: "The identifier of a word"
+      language:
+        type: "string"
+        description: "IANA language code"
+      lexicalEntries:
+        type: "array"
+        description: "A grouping of various senses in a specific language, and a lexical\
+          \ category that relates to a word"
+        items:
+          $ref: "#/definitions/LemmatronLexicalEntry"
+        minItems: 1
+      type:
+        type: "string"
+        description: "The json object type. Could be 'headword', 'inflection' or 'phrase'"
+      word:
+        type: "string"
+        description: "A given written or spoken realisation of a an entry, lowercased."
+    description: "Description of an inflected form of a word"
+    example:
+      lexicalEntries:
+      - grammaticalFeatures: ""
+        inflectionOf: ""
+        lexicalCategory: "lexicalCategory"
+        language: "language"
+        text: "text"
+      - grammaticalFeatures: ""
+        inflectionOf: ""
+        lexicalCategory: "lexicalCategory"
+        language: "language"
+        text: "text"
+      language: "language"
+      id: "id"
+      type: "type"
+      word: "word"
+  HeadwordThesaurus:
+    type: "object"
+    required:
+    - "id"
+    - "language"
+    - "lexicalEntries"
+    - "word"
+    properties:
+      id:
+        type: "string"
+        description: "The identifier of a word"
+      language:
+        type: "string"
+        description: "IANA language code"
+      lexicalEntries:
+        type: "array"
+        description: "A grouping of various senses in a specific language, and a lexical\
+          \ category that relates to a word"
+        items:
+          $ref: "#/definitions/ThesaurusLexicalEntry"
+        minItems: 1
+      type:
+        type: "string"
+        description: "The json object type. Could be 'headword', 'inflection' or 'phrase'"
+      word:
+        type: "string"
+        description: "A given written or spoken realisation of a an entry, lowercased."
+    description: "description of thesaurus information of a word"
+    example:
+      lexicalEntries:
+      - entries:
+        - homographNumber: "homographNumber"
+          senses:
+          - regions: ""
+            examples: ""
+            synonyms: ""
+            antonyms: ""
+            domains: ""
+            registers: ""
+            id: "id"
+            subsenses:
+            - null
+            - null
+          - regions: ""
+            examples: ""
+            synonyms: ""
+            antonyms: ""
+            domains: ""
+            registers: ""
+            id: "id"
+            subsenses:
+            - null
+            - null
+          variantForms: ""
+        - homographNumber: "homographNumber"
+          senses:
+          - regions: ""
+            examples: ""
+            synonyms: ""
+            antonyms: ""
+            domains: ""
+            registers: ""
+            id: "id"
+            subsenses:
+            - null
+            - null
+          - regions: ""
+            examples: ""
+            synonyms: ""
+            antonyms: ""
+            domains: ""
+            registers: ""
+            id: "id"
+            subsenses:
+            - null
+            - null
+          variantForms: ""
+        lexicalCategory: "lexicalCategory"
+        language: "language"
+        variantForms: ""
+        text: "text"
+      - entries:
+        - homographNumber: "homographNumber"
+          senses:
+          - regions: ""
+            examples: ""
+            synonyms: ""
+            antonyms: ""
+            domains: ""
+            registers: ""
+            id: "id"
+            subsenses:
+            - null
+            - null
+          - regions: ""
+            examples: ""
+            synonyms: ""
+            antonyms: ""
+            domains: ""
+            registers: ""
+            id: "id"
+            subsenses:
+            - null
+            - null
+          variantForms: ""
+        - homographNumber: "homographNumber"
+          senses:
+          - regions: ""
+            examples: ""
+            synonyms: ""
+            antonyms: ""
+            domains: ""
+            registers: ""
+            id: "id"
+            subsenses:
+            - null
+            - null
+          - regions: ""
+            examples: ""
+            synonyms: ""
+            antonyms: ""
+            domains: ""
+            registers: ""
+            id: "id"
+            subsenses:
+            - null
+            - null
+          variantForms: ""
+        lexicalCategory: "lexicalCategory"
+        language: "language"
+        variantForms: ""
+        text: "text"
+      language: "language"
+      id: "id"
+      type: "type"
+      word: "word"
+  InflectionsList:
+    type: "array"
+    description: "A grouping of the modifications of a word to express different grammatical\
+      \ categories"
+    items:
+      $ref: "#/definitions/InflectionsList_inner"
+  Languages:
+    type: "object"
+    properties:
+      metadata:
+        type: "object"
+        description: "Additional Information provided by OUP"
+        properties: {}
+      results:
+        type: "array"
+        description: "A list of languages available."
+        items:
+          $ref: "#/definitions/Languages_results"
+        minItems: 1
+    description: "Schema for the languages endpoint."
+    example:
+      metadata: "{}"
+      results:
+      - targetLanguage:
+          language: "language"
+          id: "id"
+        source: "source"
+        region: "region"
+        type: "monolingual"
+        sourceLanguage:
+          language: "language"
+          id: "id"
+      - targetLanguage:
+          language: "language"
+          id: "id"
+        source: "source"
+        region: "region"
+        type: "monolingual"
+        sourceLanguage:
+          language: "language"
+          id: "id"
+  Lemmatron:
+    type: "object"
+    properties:
+      metadata:
+        type: "object"
+        description: "Additional Information provided by OUP"
+        properties: {}
+      results:
+        type: "array"
+        description: "A list of inflections matching a given word"
+        items:
+          $ref: "#/definitions/HeadwordLemmatron"
+        minItems: 1
+    description: "Schema for the inflections endpoint."
+    example:
+      metadata: "{}"
+      results:
+      - lexicalEntries:
+        - grammaticalFeatures: ""
+          inflectionOf: ""
+          lexicalCategory: "lexicalCategory"
+          language: "language"
+          text: "text"
+        - grammaticalFeatures: ""
+          inflectionOf: ""
+          lexicalCategory: "lexicalCategory"
+          language: "language"
+          text: "text"
+        language: "language"
+        id: "id"
+        type: "type"
+        word: "word"
+      - lexicalEntries:
+        - grammaticalFeatures: ""
+          inflectionOf: ""
+          lexicalCategory: "lexicalCategory"
+          language: "language"
+          text: "text"
+        - grammaticalFeatures: ""
+          inflectionOf: ""
+          lexicalCategory: "lexicalCategory"
+          language: "language"
+          text: "text"
+        language: "language"
+        id: "id"
+        type: "type"
+        word: "word"
+  LemmatronLexicalEntry:
+    type: "object"
+    required:
+    - "inflectionOf"
+    - "language"
+    - "lexicalCategory"
+    - "text"
+    properties:
+      grammaticalFeatures:
+        $ref: "#/definitions/GrammaticalFeaturesList"
+      inflectionOf:
+        description: "The canonical form of words for which the entry is an inflection"
+        $ref: "#/definitions/InflectionsList"
+      language:
+        type: "string"
+        description: "IANA language code"
+      lexicalCategory:
+        type: "string"
+        description: "A linguistic category of words (or more precisely lexical items),\
+          \ generally defined by the syntactic or morphological behaviour of the lexical\
+          \ item in question, such as noun or verb"
+      text:
+        type: "string"
+        description: "A given written or spoken realisation of a an entry."
+    description: "Description of an entry for a particular part of speech and grammatical\
+      \ features"
+    example:
+      grammaticalFeatures: ""
+      inflectionOf: ""
+      lexicalCategory: "lexicalCategory"
+      language: "language"
+      text: "text"
+  NgramsResult:
+    type: "object"
+    properties:
+      metadata:
+        type: "object"
+        description: "Additional Information provided by OUP"
+        properties: {}
+      results:
+        type: "array"
+        description: "A list of found ngrams along with their frequencies"
+        items:
+          $ref: "#/definitions/NgramsResult_results"
+        minItems: 0
+    description: "Schema for corpus ngrams."
+    example:
+      metadata: "{}"
+      results:
+      - tokens:
+        - "tokens"
+        - "tokens"
+        frequency: 0
+      - tokens:
+        - "tokens"
+        - "tokens"
+        frequency: 0
+  PronunciationsList:
+    type: "array"
+    description: "A list of possible pronunciations of a word"
+    items:
+      $ref: "#/definitions/PronunciationsList_inner"
+  Regions:
+    properties:
+      metadata:
+        type: "object"
+        description: "Additional Information provided by OUP"
+        properties: {}
+      results:
+        type: "object"
+        description: "A mapping of regions available."
+        additionalProperties:
+          description: "A list of lables for region."
+          $ref: "#/definitions/arrayofstrings"
+    description: "Schema for region endpoint."
+    example:
+      metadata: "{}"
+      results:
+        key: ""
+  RetrieveEntry:
+    type: "object"
+    properties:
+      metadata:
+        type: "object"
+        description: "Additional Information provided by OUP"
+        properties: {}
+      results:
+        type: "array"
+        description: "A list of entries and all the data related to them"
+        items:
+          $ref: "#/definitions/HeadwordEntry"
+        minItems: 1
+    description: "Schema for the 'entries' endpoints"
+    example:
+      metadata: "{}"
+      results:
+      - lexicalEntries:
+        - derivatives: ""
+          entries:
+          - grammaticalFeatures: ""
+            homographNumber: "homographNumber"
+            notes: ""
+            senses:
+            - notes: ""
+              regions: ""
+              domains: ""
+              subsenses:
+              - null
+              - null
+              crossReferenceMarkers: ""
+              examples: ""
+              translations: ""
+              registers: ""
+              variantForms: ""
+              id: "id"
+              thesaurusLinks:
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              crossReferences: ""
+              definitions: ""
+              short_definitions: ""
+              pronunciations: ""
+            - notes: ""
+              regions: ""
+              domains: ""
+              subsenses:
+              - null
+              - null
+              crossReferenceMarkers: ""
+              examples: ""
+              translations: ""
+              registers: ""
+              variantForms: ""
+              id: "id"
+              thesaurusLinks:
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              crossReferences: ""
+              definitions: ""
+              short_definitions: ""
+              pronunciations: ""
+            etymologies: ""
+            variantForms: ""
+            pronunciations: ""
+          - grammaticalFeatures: ""
+            homographNumber: "homographNumber"
+            notes: ""
+            senses:
+            - notes: ""
+              regions: ""
+              domains: ""
+              subsenses:
+              - null
+              - null
+              crossReferenceMarkers: ""
+              examples: ""
+              translations: ""
+              registers: ""
+              variantForms: ""
+              id: "id"
+              thesaurusLinks:
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              crossReferences: ""
+              definitions: ""
+              short_definitions: ""
+              pronunciations: ""
+            - notes: ""
+              regions: ""
+              domains: ""
+              subsenses:
+              - null
+              - null
+              crossReferenceMarkers: ""
+              examples: ""
+              translations: ""
+              registers: ""
+              variantForms: ""
+              id: "id"
+              thesaurusLinks:
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              crossReferences: ""
+              definitions: ""
+              short_definitions: ""
+              pronunciations: ""
+            etymologies: ""
+            variantForms: ""
+            pronunciations: ""
+          grammaticalFeatures: ""
+          derivativeOf: ""
+          notes: ""
+          lexicalCategory: "lexicalCategory"
+          language: "language"
+          variantForms: ""
+          text: "text"
+          pronunciations: ""
+        - derivatives: ""
+          entries:
+          - grammaticalFeatures: ""
+            homographNumber: "homographNumber"
+            notes: ""
+            senses:
+            - notes: ""
+              regions: ""
+              domains: ""
+              subsenses:
+              - null
+              - null
+              crossReferenceMarkers: ""
+              examples: ""
+              translations: ""
+              registers: ""
+              variantForms: ""
+              id: "id"
+              thesaurusLinks:
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              crossReferences: ""
+              definitions: ""
+              short_definitions: ""
+              pronunciations: ""
+            - notes: ""
+              regions: ""
+              domains: ""
+              subsenses:
+              - null
+              - null
+              crossReferenceMarkers: ""
+              examples: ""
+              translations: ""
+              registers: ""
+              variantForms: ""
+              id: "id"
+              thesaurusLinks:
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              crossReferences: ""
+              definitions: ""
+              short_definitions: ""
+              pronunciations: ""
+            etymologies: ""
+            variantForms: ""
+            pronunciations: ""
+          - grammaticalFeatures: ""
+            homographNumber: "homographNumber"
+            notes: ""
+            senses:
+            - notes: ""
+              regions: ""
+              domains: ""
+              subsenses:
+              - null
+              - null
+              crossReferenceMarkers: ""
+              examples: ""
+              translations: ""
+              registers: ""
+              variantForms: ""
+              id: "id"
+              thesaurusLinks:
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              crossReferences: ""
+              definitions: ""
+              short_definitions: ""
+              pronunciations: ""
+            - notes: ""
+              regions: ""
+              domains: ""
+              subsenses:
+              - null
+              - null
+              crossReferenceMarkers: ""
+              examples: ""
+              translations: ""
+              registers: ""
+              variantForms: ""
+              id: "id"
+              thesaurusLinks:
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              crossReferences: ""
+              definitions: ""
+              short_definitions: ""
+              pronunciations: ""
+            etymologies: ""
+            variantForms: ""
+            pronunciations: ""
+          grammaticalFeatures: ""
+          derivativeOf: ""
+          notes: ""
+          lexicalCategory: "lexicalCategory"
+          language: "language"
+          variantForms: ""
+          text: "text"
+          pronunciations: ""
+        language: "language"
+        id: "id"
+        type: "type"
+        word: "word"
+        pronunciations: ""
+      - lexicalEntries:
+        - derivatives: ""
+          entries:
+          - grammaticalFeatures: ""
+            homographNumber: "homographNumber"
+            notes: ""
+            senses:
+            - notes: ""
+              regions: ""
+              domains: ""
+              subsenses:
+              - null
+              - null
+              crossReferenceMarkers: ""
+              examples: ""
+              translations: ""
+              registers: ""
+              variantForms: ""
+              id: "id"
+              thesaurusLinks:
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              crossReferences: ""
+              definitions: ""
+              short_definitions: ""
+              pronunciations: ""
+            - notes: ""
+              regions: ""
+              domains: ""
+              subsenses:
+              - null
+              - null
+              crossReferenceMarkers: ""
+              examples: ""
+              translations: ""
+              registers: ""
+              variantForms: ""
+              id: "id"
+              thesaurusLinks:
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              crossReferences: ""
+              definitions: ""
+              short_definitions: ""
+              pronunciations: ""
+            etymologies: ""
+            variantForms: ""
+            pronunciations: ""
+          - grammaticalFeatures: ""
+            homographNumber: "homographNumber"
+            notes: ""
+            senses:
+            - notes: ""
+              regions: ""
+              domains: ""
+              subsenses:
+              - null
+              - null
+              crossReferenceMarkers: ""
+              examples: ""
+              translations: ""
+              registers: ""
+              variantForms: ""
+              id: "id"
+              thesaurusLinks:
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              crossReferences: ""
+              definitions: ""
+              short_definitions: ""
+              pronunciations: ""
+            - notes: ""
+              regions: ""
+              domains: ""
+              subsenses:
+              - null
+              - null
+              crossReferenceMarkers: ""
+              examples: ""
+              translations: ""
+              registers: ""
+              variantForms: ""
+              id: "id"
+              thesaurusLinks:
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              crossReferences: ""
+              definitions: ""
+              short_definitions: ""
+              pronunciations: ""
+            etymologies: ""
+            variantForms: ""
+            pronunciations: ""
+          grammaticalFeatures: ""
+          derivativeOf: ""
+          notes: ""
+          lexicalCategory: "lexicalCategory"
+          language: "language"
+          variantForms: ""
+          text: "text"
+          pronunciations: ""
+        - derivatives: ""
+          entries:
+          - grammaticalFeatures: ""
+            homographNumber: "homographNumber"
+            notes: ""
+            senses:
+            - notes: ""
+              regions: ""
+              domains: ""
+              subsenses:
+              - null
+              - null
+              crossReferenceMarkers: ""
+              examples: ""
+              translations: ""
+              registers: ""
+              variantForms: ""
+              id: "id"
+              thesaurusLinks:
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              crossReferences: ""
+              definitions: ""
+              short_definitions: ""
+              pronunciations: ""
+            - notes: ""
+              regions: ""
+              domains: ""
+              subsenses:
+              - null
+              - null
+              crossReferenceMarkers: ""
+              examples: ""
+              translations: ""
+              registers: ""
+              variantForms: ""
+              id: "id"
+              thesaurusLinks:
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              crossReferences: ""
+              definitions: ""
+              short_definitions: ""
+              pronunciations: ""
+            etymologies: ""
+            variantForms: ""
+            pronunciations: ""
+          - grammaticalFeatures: ""
+            homographNumber: "homographNumber"
+            notes: ""
+            senses:
+            - notes: ""
+              regions: ""
+              domains: ""
+              subsenses:
+              - null
+              - null
+              crossReferenceMarkers: ""
+              examples: ""
+              translations: ""
+              registers: ""
+              variantForms: ""
+              id: "id"
+              thesaurusLinks:
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              crossReferences: ""
+              definitions: ""
+              short_definitions: ""
+              pronunciations: ""
+            - notes: ""
+              regions: ""
+              domains: ""
+              subsenses:
+              - null
+              - null
+              crossReferenceMarkers: ""
+              examples: ""
+              translations: ""
+              registers: ""
+              variantForms: ""
+              id: "id"
+              thesaurusLinks:
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              - sense_id: "sense_id"
+                entry_id: "entry_id"
+              crossReferences: ""
+              definitions: ""
+              short_definitions: ""
+              pronunciations: ""
+            etymologies: ""
+            variantForms: ""
+            pronunciations: ""
+          grammaticalFeatures: ""
+          derivativeOf: ""
+          notes: ""
+          lexicalCategory: "lexicalCategory"
+          language: "language"
+          variantForms: ""
+          text: "text"
+          pronunciations: ""
+        language: "language"
+        id: "id"
+        type: "type"
+        word: "word"
+        pronunciations: ""
+  Sense:
+    type: "object"
+    properties:
+      crossReferenceMarkers:
+        description: "A grouping of crossreference notes."
+        $ref: "#/definitions/arrayofstrings"
+      crossReferences:
+        $ref: "#/definitions/CrossReferencesList"
+      definitions:
+        description: "A list of statements of the exact meaning of a word"
+        $ref: "#/definitions/arrayofstrings"
+      domains:
+        description: "A subject, discipline, or branch of knowledge particular to\
+          \ the Sense"
+        $ref: "#/definitions/arrayofstrings"
+      examples:
+        $ref: "#/definitions/ExamplesList"
+      id:
+        type: "string"
+        description: "The id of the sense that is required for the delete procedure"
+      notes:
+        $ref: "#/definitions/CategorizedTextList"
+      pronunciations:
+        $ref: "#/definitions/PronunciationsList"
+      regions:
+        description: "A particular area in which the Sense occurs, e.g. 'Great Britain'"
+        $ref: "#/definitions/arrayofstrings"
+      registers:
+        description: "A level of language usage, typically with respect to formality.\
+          \ e.g. 'offensive', 'informal'"
+        $ref: "#/definitions/arrayofstrings"
+      short_definitions:
+        description: "A list of short statements of the exact meaning of a word"
+        $ref: "#/definitions/arrayofstrings"
+      subsenses:
+        type: "array"
+        description: "Ordered list of subsenses of a sense"
+        items:
+          $ref: "#/definitions/Sense"
+        minItems: 1
+      thesaurusLinks:
+        type: "array"
+        description: "Ordered list of links to the Thesaurus Dictionary"
+        items:
+          $ref: "#/definitions/thesaurusLink"
+        minItems: 1
+      translations:
+        $ref: "#/definitions/TranslationsList"
+      variantForms:
+        description: "Various words that are used interchangeably depending on the\
+          \ context, e.g 'duck' and 'duck boat'"
+        $ref: "#/definitions/VariantFormsList"
+    description: "A lexical sense represents the lexical meaning of a lexical entry\
+      \ when interpreted as referring to the corresponding ontology element"
+    example:
+      notes: ""
+      regions: ""
+      domains: ""
+      subsenses:
+      - null
+      - null
+      crossReferenceMarkers: ""
+      examples: ""
+      translations: ""
+      registers: ""
+      variantForms: ""
+      id: "id"
+      thesaurusLinks:
+      - sense_id: "sense_id"
+        entry_id: "entry_id"
+      - sense_id: "sense_id"
+        entry_id: "entry_id"
+      crossReferences: ""
+      definitions: ""
+      short_definitions: ""
+      pronunciations: ""
+  thesaurusLink:
+    type: "object"
+    required:
+    - "entry_id"
+    - "sense_id"
+    properties:
+      entry_id:
+        type: "string"
+        description: "identifier of a word"
+      sense_id:
+        type: "string"
+        description: "identifier of a sense"
+    description: "Link to a sense of a specific entry in the thesaurus Dictionary"
+    example:
+      sense_id: "sense_id"
+      entry_id: "entry_id"
+  SentencesEntry:
+    type: "object"
+    required:
+    - "id"
+    - "language"
+    - "lexicalEntries"
+    - "word"
+    properties:
+      id:
+        type: "string"
+        description: "The identifier of a word"
+      language:
+        type: "string"
+        description: "IANA language code"
+      lexicalEntries:
+        type: "array"
+        description: "A grouping of various senses in a specific language, and a lexical\
+          \ category that relates to a word"
+        items:
+          $ref: "#/definitions/SentencesLexicalEntry"
+        minItems: 1
+      type:
+        type: "string"
+        description: "The json object type. Could be 'headword', 'inflection' or 'phrase'"
+      word:
+        type: "string"
+        description: "A given written or spoken realisation of a an entry, lowercased."
+    description: "Description of a word"
+    example:
+      lexicalEntries:
+      - grammaticalFeatures: ""
+        sentences: ""
+        lexicalCategory: "lexicalCategory"
+        language: "language"
+        text: "text"
+      - grammaticalFeatures: ""
+        sentences: ""
+        lexicalCategory: "lexicalCategory"
+        language: "language"
+        text: "text"
+      language: "language"
+      id: "id"
+      type: "type"
+      word: "word"
+  SentencesLexicalEntry:
+    type: "object"
+    required:
+    - "language"
+    - "sentences"
+    - "text"
+    properties:
+      grammaticalFeatures:
+        $ref: "#/definitions/GrammaticalFeaturesList"
+      language:
+        type: "string"
+        description: "IANA language code"
+      lexicalCategory:
+        type: "string"
+        description: "A linguistic category of words (or more precisely lexical items),\
+          \ generally defined by the syntactic or morphological behaviour of the lexical\
+          \ item in question, such as noun or verb"
+      sentences:
+        description: "A list of examples of use sentences"
+        $ref: "#/definitions/ExamplesList"
+      text:
+        type: "string"
+        description: "A given written or spoken realisation of a an entry."
+    description: "Description of an entry for a particular part of speech"
+    example:
+      grammaticalFeatures: ""
+      sentences: ""
+      lexicalCategory: "lexicalCategory"
+      language: "language"
+      text: "text"
+  SentencesResults:
+    type: "object"
+    properties:
+      metadata:
+        type: "object"
+        description: "Additional Information provided by OUP"
+        properties: {}
+      results:
+        type: "array"
+        description: "A list of entries and all the data related to them"
+        items:
+          $ref: "#/definitions/SentencesEntry"
+        minItems: 1
+    description: "Schema for the 'sentences' endpoint"
+    example:
+      metadata: "{}"
+      results:
+      - lexicalEntries:
+        - grammaticalFeatures: ""
+          sentences: ""
+          lexicalCategory: "lexicalCategory"
+          language: "language"
+          text: "text"
+        - grammaticalFeatures: ""
+          sentences: ""
+          lexicalCategory: "lexicalCategory"
+          language: "language"
+          text: "text"
+        language: "language"
+        id: "id"
+        type: "type"
+        word: "word"
+      - lexicalEntries:
+        - grammaticalFeatures: ""
+          sentences: ""
+          lexicalCategory: "lexicalCategory"
+          language: "language"
+          text: "text"
+        - grammaticalFeatures: ""
+          sentences: ""
+          lexicalCategory: "lexicalCategory"
+          language: "language"
+          text: "text"
+        language: "language"
+        id: "id"
+        type: "type"
+        word: "word"
+  StatsWordResult:
+    type: "object"
+    properties:
+      metadata:
+        type: "object"
+        description: "Additional Information provided by OUP"
+        properties: {}
+      result:
+        $ref: "#/definitions/StatsWordResult_result"
+    description: "Schema for lexi-stats results for a word/trueCase/lemma/lexicalCategory\
+      \ returned as a frequency"
+    example:
+      result:
+        normalizedFrequency: 1
+        wordform: "wordform"
+        lexicalCategory: "lexicalCategory"
+        lemma: "lemma"
+        matchCount: 6
+        trueCase: "trueCase"
+        frequency: 0
+      metadata: "{}"
+  StatsWordResultList:
+    type: "object"
+    properties:
+      metadata:
+        type: "object"
+        description: "Additional Information provided by OUP"
+        properties: {}
+      results:
+        type: "array"
+        description: "A list of found words along with their frequencies"
+        items:
+          $ref: "#/definitions/StatsWordResultList_results"
+        minItems: 0
+    description: "Schema for lexi-stats results for a word/trueCase/lemma/lexicalCategory\
+      \ returned as a list of frequencies per wordform-trueCase-lemma-lexicalCategory\
+      \ entry."
+    example:
+      metadata: "{}"
+      results:
+      - normalizedFrequency: 6
+        wordform: "wordform"
+        lexicalCategory: "lexicalCategory"
+        lemma: "lemma"
+        trueCase: "trueCase"
+        frequency: 0
+      - normalizedFrequency: 6
+        wordform: "wordform"
+        lexicalCategory: "lexicalCategory"
+        lemma: "lemma"
+        trueCase: "trueCase"
+        frequency: 0
+  SynonymsAntonyms:
+    type: "array"
+    items:
+      $ref: "#/definitions/SynonymsAntonyms_inner"
+  Thesaurus:
+    type: "object"
+    properties:
+      metadata:
+        type: "object"
+        description: "Additional Information provided by OUP"
+        properties: {}
+      results:
+        type: "array"
+        description: "A list of found synonyms or antonyms"
+        items:
+          $ref: "#/definitions/HeadwordThesaurus"
+        minItems: 1
+    description: "Schema for thesaurus endpoint"
+    example:
+      metadata: "{}"
+      results:
+      - lexicalEntries:
+        - entries:
+          - homographNumber: "homographNumber"
+            senses:
+            - regions: ""
+              examples: ""
+              synonyms: ""
+              antonyms: ""
+              domains: ""
+              registers: ""
+              id: "id"
+              subsenses:
+              - null
+              - null
+            - regions: ""
+              examples: ""
+              synonyms: ""
+              antonyms: ""
+              domains: ""
+              registers: ""
+              id: "id"
+              subsenses:
+              - null
+              - null
+            variantForms: ""
+          - homographNumber: "homographNumber"
+            senses:
+            - regions: ""
+              examples: ""
+              synonyms: ""
+              antonyms: ""
+              domains: ""
+              registers: ""
+              id: "id"
+              subsenses:
+              - null
+              - null
+            - regions: ""
+              examples: ""
+              synonyms: ""
+              antonyms: ""
+              domains: ""
+              registers: ""
+              id: "id"
+              subsenses:
+              - null
+              - null
+            variantForms: ""
+          lexicalCategory: "lexicalCategory"
+          language: "language"
+          variantForms: ""
+          text: "text"
+        - entries:
+          - homographNumber: "homographNumber"
+            senses:
+            - regions: ""
+              examples: ""
+              synonyms: ""
+              antonyms: ""
+              domains: ""
+              registers: ""
+              id: "id"
+              subsenses:
+              - null
+              - null
+            - regions: ""
+              examples: ""
+              synonyms: ""
+              antonyms: ""
+              domains: ""
+              registers: ""
+              id: "id"
+              subsenses:
+              - null
+              - null
+            variantForms: ""
+          - homographNumber: "homographNumber"
+            senses:
+            - regions: ""
+              examples: ""
+              synonyms: ""
+              antonyms: ""
+              domains: ""
+              registers: ""
+              id: "id"
+              subsenses:
+              - null
+              - null
+            - regions: ""
+              examples: ""
+              synonyms: ""
+              antonyms: ""
+              domains: ""
+              registers: ""
+              id: "id"
+              subsenses:
+              - null
+              - null
+            variantForms: ""
+          lexicalCategory: "lexicalCategory"
+          language: "language"
+          variantForms: ""
+          text: "text"
+        language: "language"
+        id: "id"
+        type: "type"
+        word: "word"
+      - lexicalEntries:
+        - entries:
+          - homographNumber: "homographNumber"
+            senses:
+            - regions: ""
+              examples: ""
+              synonyms: ""
+              antonyms: ""
+              domains: ""
+              registers: ""
+              id: "id"
+              subsenses:
+              - null
+              - null
+            - regions: ""
+              examples: ""
+              synonyms: ""
+              antonyms: ""
+              domains: ""
+              registers: ""
+              id: "id"
+              subsenses:
+              - null
+              - null
+            variantForms: ""
+          - homographNumber: "homographNumber"
+            senses:
+            - regions: ""
+              examples: ""
+              synonyms: ""
+              antonyms: ""
+              domains: ""
+              registers: ""
+              id: "id"
+              subsenses:
+              - null
+              - null
+            - regions: ""
+              examples: ""
+              synonyms: ""
+              antonyms: ""
+              domains: ""
+              registers: ""
+              id: "id"
+              subsenses:
+              - null
+              - null
+            variantForms: ""
+          lexicalCategory: "lexicalCategory"
+          language: "language"
+          variantForms: ""
+          text: "text"
+        - entries:
+          - homographNumber: "homographNumber"
+            senses:
+            - regions: ""
+              examples: ""
+              synonyms: ""
+              antonyms: ""
+              domains: ""
+              registers: ""
+              id: "id"
+              subsenses:
+              - null
+              - null
+            - regions: ""
+              examples: ""
+              synonyms: ""
+              antonyms: ""
+              domains: ""
+              registers: ""
+              id: "id"
+              subsenses:
+              - null
+              - null
+            variantForms: ""
+          - homographNumber: "homographNumber"
+            senses:
+            - regions: ""
+              examples: ""
+              synonyms: ""
+              antonyms: ""
+              domains: ""
+              registers: ""
+              id: "id"
+              subsenses:
+              - null
+              - null
+            - regions: ""
+              examples: ""
+              synonyms: ""
+              antonyms: ""
+              domains: ""
+              registers: ""
+              id: "id"
+              subsenses:
+              - null
+              - null
+            variantForms: ""
+          lexicalCategory: "lexicalCategory"
+          language: "language"
+          variantForms: ""
+          text: "text"
+        language: "language"
+        id: "id"
+        type: "type"
+        word: "word"
+  ThesaurusEntry:
+    type: "object"
+    properties:
+      homographNumber:
+        type: "string"
+        description: "Identifies the homograph grouping. The last two digits identify\
+          \ different entries of the same homograph. The first one/two digits identify\
+          \ the homograph number."
+      senses:
+        type: "array"
+        description: "Complete list of senses"
+        items:
+          $ref: "#/definitions/ThesaurusSense"
+        minItems: 1
+      variantForms:
+        description: "Various words that are used interchangeably depending on the\
+          \ context, e.g 'a' and 'an'"
+        $ref: "#/definitions/VariantFormsList"
+    example:
+      homographNumber: "homographNumber"
+      senses:
+      - regions: ""
+        examples: ""
+        synonyms: ""
+        antonyms: ""
+        domains: ""
+        registers: ""
+        id: "id"
+        subsenses:
+        - null
+        - null
+      - regions: ""
+        examples: ""
+        synonyms: ""
+        antonyms: ""
+        domains: ""
+        registers: ""
+        id: "id"
+        subsenses:
+        - null
+        - null
+      variantForms: ""
+  ThesaurusLexicalEntry:
+    type: "object"
+    required:
+    - "language"
+    - "lexicalCategory"
+    - "text"
+    properties:
+      entries:
+        type: "array"
+        items:
+          $ref: "#/definitions/ThesaurusEntry"
+        minItems: 1
+      language:
+        type: "string"
+        description: "IANA language code"
+      lexicalCategory:
+        type: "string"
+        description: "A linguistic category of words (or more precisely lexical items),\
+          \ generally defined by the syntactic or morphological behaviour of the lexical\
+          \ item in question, such as noun or verb"
+      text:
+        type: "string"
+        description: "A given written or spoken realisation of a an entry."
+      variantForms:
+        description: "Various words that are used interchangeably depending on the\
+          \ context, e.g 'a' and 'an'"
+        $ref: "#/definitions/VariantFormsList"
+    description: "Description of an entry for a particular part of speech"
+    example:
+      entries:
+      - homographNumber: "homographNumber"
+        senses:
+        - regions: ""
+          examples: ""
+          synonyms: ""
+          antonyms: ""
+          domains: ""
+          registers: ""
+          id: "id"
+          subsenses:
+          - null
+          - null
+        - regions: ""
+          examples: ""
+          synonyms: ""
+          antonyms: ""
+          domains: ""
+          registers: ""
+          id: "id"
+          subsenses:
+          - null
+          - null
+        variantForms: ""
+      - homographNumber: "homographNumber"
+        senses:
+        - regions: ""
+          examples: ""
+          synonyms: ""
+          antonyms: ""
+          domains: ""
+          registers: ""
+          id: "id"
+          subsenses:
+          - null
+          - null
+        - regions: ""
+          examples: ""
+          synonyms: ""
+          antonyms: ""
+          domains: ""
+          registers: ""
+          id: "id"
+          subsenses:
+          - null
+          - null
+        variantForms: ""
+      lexicalCategory: "lexicalCategory"
+      language: "language"
+      variantForms: ""
+      text: "text"
+  ThesaurusSense:
+    type: "object"
+    properties:
+      antonyms:
+        description: "antonym of word"
+        $ref: "#/definitions/SynonymsAntonyms"
+      domains:
+        description: "A subject, discipline, or branch of knowledge particular to\
+          \ the Sense"
+        $ref: "#/definitions/arrayofstrings"
+      examples:
+        $ref: "#/definitions/ExamplesList"
+      id:
+        type: "string"
+        description: "The id of the sense that is required for the delete procedure"
+      regions:
+        description: "A particular area in which the Sense occurs, e.g. 'Great Britain'"
+        $ref: "#/definitions/arrayofstrings"
+      registers:
+        description: "A level of language usage, typically with respect to formality.\
+          \ e.g. 'offensive', 'informal'"
+        $ref: "#/definitions/arrayofstrings"
+      subsenses:
+        type: "array"
+        description: "subsenses of word"
+        items:
+          $ref: "#/definitions/ThesaurusSense"
+        minItems: 1
+      synonyms:
+        description: "synonym of word"
+        $ref: "#/definitions/SynonymsAntonyms"
+    description: "A lexical sense represents the lexical meaning of a lexical entry\
+      \ when interpreted as referring to the corresponding ontology element"
+    example:
+      regions: ""
+      examples: ""
+      synonyms: ""
+      antonyms: ""
+      domains: ""
+      registers: ""
+      id: "id"
+      subsenses:
+      - null
+      - null
+  TranslationsList:
+    type: "array"
+    description: "A list of written or spoken rendering of the meaning of a word or\
+      \ text in another language(s)"
+    items:
+      $ref: "#/definitions/TranslationsList_inner"
+  UtilityLabels:
+    properties:
+      metadata:
+        type: "object"
+        description: "Additional Information provided by OUP"
+        properties: {}
+      results:
+        type: "object"
+        description: "Mapping of labels available."
+        additionalProperties:
+          $ref: "#/definitions/UtilityLabels_results"
+    description: "Schema for lexicalcategories, registers utility endpoints."
+    example:
+      metadata: "{}"
+      results:
+        key:
+          en: "en"
+  VariantFormsList:
+    type: "array"
+    description: "Various words that are used interchangeably depending on the context,\
+      \ e.g 'aluminium' and 'aluminum'"
+    items:
+      $ref: "#/definitions/VariantFormsList_inner"
+  Wordlist:
+    type: "object"
+    properties:
+      metadata:
+        type: "object"
+        description: "Additional Information provided by OUP"
+        properties: {}
+      results:
+        type: "array"
+        description: "A list of found words"
+        items:
+          $ref: "#/definitions/Wordlist_results"
+        minItems: 0
+    description: "Schema for wordlist endpoint."
+    example:
+      metadata: "{}"
+      results:
+      - matchType: "matchType"
+        id: "id"
+        region: "region"
+        word: "word"
+      - matchType: "matchType"
+        id: "id"
+        region: "region"
+        word: "word"
+  arrayofstrings:
+    type: "array"
+    items:
+      type: "string"
+  lexicalEntry:
+    type: "object"
+    required:
+    - "language"
+    - "lexicalCategory"
+    - "text"
+    properties:
+      derivativeOf:
+        description: "Other words from which this one derives"
+        $ref: "#/definitions/ArrayOfRelatedEntries"
+      derivatives:
+        description: "Other words from which their Sense derives"
+        $ref: "#/definitions/ArrayOfRelatedEntries"
+      entries:
+        type: "array"
+        items:
+          $ref: "#/definitions/Entry"
+        minItems: 1
+      grammaticalFeatures:
+        $ref: "#/definitions/GrammaticalFeaturesList"
+      language:
+        type: "string"
+        description: "IANA language code"
+      lexicalCategory:
+        type: "string"
+        description: "A linguistic category of words (or more precisely lexical items),\
+          \ generally defined by the syntactic or morphological behaviour of the lexical\
+          \ item in question, such as noun or verb"
+      notes:
+        $ref: "#/definitions/CategorizedTextList"
+      pronunciations:
+        $ref: "#/definitions/PronunciationsList"
+      text:
+        type: "string"
+        description: "A given written or spoken realisation of a an entry."
+      variantForms:
+        description: "Various words that are used interchangeably depending on the\
+          \ context, e.g 'a' and 'an'"
+        $ref: "#/definitions/VariantFormsList"
+    description: "Description of an entry for a particular part of speech"
+    example:
+      derivatives: ""
+      entries:
+      - grammaticalFeatures: ""
+        homographNumber: "homographNumber"
+        notes: ""
+        senses:
+        - notes: ""
+          regions: ""
+          domains: ""
+          subsenses:
+          - null
+          - null
+          crossReferenceMarkers: ""
+          examples: ""
+          translations: ""
+          registers: ""
+          variantForms: ""
+          id: "id"
+          thesaurusLinks:
+          - sense_id: "sense_id"
+            entry_id: "entry_id"
+          - sense_id: "sense_id"
+            entry_id: "entry_id"
+          crossReferences: ""
+          definitions: ""
+          short_definitions: ""
+          pronunciations: ""
+        - notes: ""
+          regions: ""
+          domains: ""
+          subsenses:
+          - null
+          - null
+          crossReferenceMarkers: ""
+          examples: ""
+          translations: ""
+          registers: ""
+          variantForms: ""
+          id: "id"
+          thesaurusLinks:
+          - sense_id: "sense_id"
+            entry_id: "entry_id"
+          - sense_id: "sense_id"
+            entry_id: "entry_id"
+          crossReferences: ""
+          definitions: ""
+          short_definitions: ""
+          pronunciations: ""
+        etymologies: ""
+        variantForms: ""
+        pronunciations: ""
+      - grammaticalFeatures: ""
+        homographNumber: "homographNumber"
+        notes: ""
+        senses:
+        - notes: ""
+          regions: ""
+          domains: ""
+          subsenses:
+          - null
+          - null
+          crossReferenceMarkers: ""
+          examples: ""
+          translations: ""
+          registers: ""
+          variantForms: ""
+          id: "id"
+          thesaurusLinks:
+          - sense_id: "sense_id"
+            entry_id: "entry_id"
+          - sense_id: "sense_id"
+            entry_id: "entry_id"
+          crossReferences: ""
+          definitions: ""
+          short_definitions: ""
+          pronunciations: ""
+        - notes: ""
+          regions: ""
+          domains: ""
+          subsenses:
+          - null
+          - null
+          crossReferenceMarkers: ""
+          examples: ""
+          translations: ""
+          registers: ""
+          variantForms: ""
+          id: "id"
+          thesaurusLinks:
+          - sense_id: "sense_id"
+            entry_id: "entry_id"
+          - sense_id: "sense_id"
+            entry_id: "entry_id"
+          crossReferences: ""
+          definitions: ""
+          short_definitions: ""
+          pronunciations: ""
+        etymologies: ""
+        variantForms: ""
+        pronunciations: ""
+      grammaticalFeatures: ""
+      derivativeOf: ""
+      notes: ""
+      lexicalCategory: "lexicalCategory"
+      language: "language"
+      variantForms: ""
+      text: "text"
+      pronunciations: ""
+  ArrayOfRelatedEntries_inner:
+    required:
+    - "id"
+    - "text"
+    properties:
+      domains:
+        description: "A subject, discipline, or branch of knowledge particular to\
+          \ the Sense"
+        $ref: "#/definitions/arrayofstrings"
+      id:
+        type: "string"
+        description: "The identifier of the word"
+      language:
+        type: "string"
+        description: "IANA language code specifying the language of the word"
+      regions:
+        description: "A particular area in which the pronunciation occurs, e.g. 'Great\
+          \ Britain'"
+        $ref: "#/definitions/arrayofstrings"
+      registers:
+        description: "A level of language usage, typically with respect to formality.\
+          \ e.g. 'offensive', 'informal'"
+        $ref: "#/definitions/arrayofstrings"
+      text:
+        type: "string"
+  CategorizedTextList_inner:
+    required:
+    - "text"
+    - "type"
+    properties:
+      id:
+        type: "string"
+        description: "The identifier of the word"
+      text:
+        type: "string"
+        description: "A note text"
+      type:
+        type: "string"
+        description: "The descriptive category of the text"
+  CrossReferencesList_inner:
+    required:
+    - "id"
+    - "text"
+    - "type"
+    properties:
+      id:
+        type: "string"
+        description: "The word id of cooccurrence"
+      text:
+        type: "string"
+        description: "The word of cooccurrence"
+      type:
+        type: "string"
+        description: "The type of relation between the two words. Possible values\
+          \ are 'close match', 'related', 'see also', 'variant spelling', and 'abbreviation'\
+          \ in case of crossreferences, or 'pre', 'post' in case of collocates."
+    description: "cross references of a sense"
+  ExamplesList_inner:
+    required:
+    - "text"
+    properties:
+      definitions:
+        description: "A list of statements of the exact meaning of a word"
+        $ref: "#/definitions/arrayofstrings"
+      domains:
+        description: "A subject, discipline, or branch of knowledge particular to\
+          \ the Sense"
+        $ref: "#/definitions/arrayofstrings"
+      notes:
+        $ref: "#/definitions/CategorizedTextList"
+      regions:
+        description: "A particular area in which the pronunciation occurs, e.g. 'Great\
+          \ Britain'"
+        $ref: "#/definitions/arrayofstrings"
+      registers:
+        description: "A level of language usage, typically with respect to formality.\
+          \ e.g. 'offensive', 'informal'"
+        $ref: "#/definitions/arrayofstrings"
+      senseIds:
+        description: "The list of sense identifiers related to the example. Provided\
+          \ in the sentences endpoint only."
+        $ref: "#/definitions/arrayofstrings"
+      text:
+        type: "string"
+      translations:
+        $ref: "#/definitions/TranslationsList"
+  Filters_results:
+    properties:
+      entries:
+        description: "A list of filters available for Retrieve Entry endpoint"
+        $ref: "#/definitions/arrayofstrings"
+      inflections:
+        description: "A list of filters available for LEMMATRON endpoint"
+        $ref: "#/definitions/arrayofstrings"
+      translations:
+        description: "A list of filters available for Translations endpoint"
+        $ref: "#/definitions/arrayofstrings"
+      wordlist:
+        description: "A list of filters available for Translations endpoint"
+        $ref: "#/definitions/arrayofstrings"
+    description: "A mapping of filters available per endpoints."
+    example:
+      entries: ""
+      wordlist: ""
+      translations: ""
+      inflections: ""
+  GrammaticalFeaturesList_inner:
+    required:
+    - "text"
+    - "type"
+    properties:
+      text:
+        type: "string"
+      type:
+        type: "string"
+  InflectionsList_inner:
+    required:
+    - "id"
+    - "text"
+    properties:
+      id:
+        type: "string"
+        description: "The identifier of the word"
+      text:
+        type: "string"
+  Languages_sourceLanguage:
+    properties:
+      id:
+        type: "string"
+        description: "IANA language code"
+      language:
+        type: "string"
+        description: "Language label."
+    description: "Source language of the results"
+    example:
+      language: "language"
+      id: "id"
+  Languages_targetLanguage:
+    properties:
+      id:
+        type: "string"
+        description: "IANA language code"
+      language:
+        type: "string"
+        description: "Language label."
+    description: "Translation language of the results"
+    example:
+      language: "language"
+      id: "id"
+  Languages_results:
+    properties:
+      region:
+        type: "string"
+        description: "Name of region."
+      source:
+        type: "string"
+        description: "Name of source dictionary."
+      sourceLanguage:
+        $ref: "#/definitions/Languages_sourceLanguage"
+      targetLanguage:
+        $ref: "#/definitions/Languages_targetLanguage"
+      type:
+        type: "string"
+        description: "whether monolingual or bilingual."
+        enum:
+        - "monolingual"
+        - "bilingual"
+    example:
+      targetLanguage:
+        language: "language"
+        id: "id"
+      source: "source"
+      region: "region"
+      type: "monolingual"
+      sourceLanguage:
+        language: "language"
+        id: "id"
+  NgramsResult_results:
+    required:
+    - "frequency"
+    - "tokens"
+    properties:
+      frequency:
+        type: "integer"
+        description: "The number of times the ngram (a sequence of n words) appears\
+          \ in the corpus"
+      tokens:
+        type: "array"
+        description: "A list of tokens"
+        items:
+          type: "string"
+        minItems: 1
+    description: "Ngrams matching the given options"
+    example:
+      tokens:
+      - "tokens"
+      - "tokens"
+      frequency: 0
+  PronunciationsList_inner:
+    properties:
+      audioFile:
+        type: "string"
+        description: "The URL of the sound file"
+      dialects:
+        description: "A local or regional variation where the pronunciation occurs,\
+          \ e.g. 'British English'"
+        $ref: "#/definitions/arrayofstrings"
+      phoneticNotation:
+        type: "string"
+        description: "The alphabetic system used to display the phonetic spelling"
+      phoneticSpelling:
+        type: "string"
+        description: "Phonetic spelling is the representation of vocal sounds which\
+          \ express pronunciations of words. It is a system of spelling in which each\
+          \ letter represents invariably the same spoken sound"
+      regions:
+        description: "A particular area in which the pronunciation occurs, e.g. 'Great\
+          \ Britain'"
+        $ref: "#/definitions/arrayofstrings"
+    description: "A grouping of pronunciation information"
+  StatsWordResult_result:
+    required:
+    - "frequency"
+    - "matchCount"
+    - "normalizedFrequency"
+    properties:
+      frequency:
+        type: "integer"
+        description: "The number of times a word appears in the entire corpus"
+      lemma:
+        type: "string"
+        description: "A lemma of the word (e.g., wordforms \"lay\", \"laid\" and \"\
+          laying\" have all lemma \"lay\")"
+      lexicalCategory:
+        type: "string"
+        description: "A lexical category such as 'verb' or 'noun'"
+      matchCount:
+        type: "integer"
+        description: "The number of database records that matched the query params\
+          \ (stated frequency is the sum of the individual frequencies)"
+      normalizedFrequency:
+        type: "integer"
+        description: "The number of times a word appears on average in 1 million words"
+      trueCase:
+        type: "string"
+        description: "A given written realisation of a an entry (e.g., \"lay\") usually\
+          \ lower case"
+      wordform:
+        type: "string"
+        description: "A given written realisation of a an entry (e.g., \"Lay\") preserving\
+          \ case"
+    description: "Frequency information for a given entity"
+    example:
+      normalizedFrequency: 1
+      wordform: "wordform"
+      lexicalCategory: "lexicalCategory"
+      lemma: "lemma"
+      matchCount: 6
+      trueCase: "trueCase"
+      frequency: 0
+  StatsWordResultList_results:
+    required:
+    - "frequency"
+    - "lemma"
+    - "lexicalCategory"
+    - "normalizedFrequency"
+    - "trueCase"
+    - "wordform"
+    properties:
+      frequency:
+        type: "integer"
+        description: "The number of times a word appears in the entire corpus"
+      lemma:
+        type: "string"
+        description: "A lemma of the word."
+      lexicalCategory:
+        type: "string"
+        description: "A lexical category such as 'verb' or 'noun'"
+      normalizedFrequency:
+        type: "integer"
+        description: "The number of times a word appears on average in 1 million words"
+      trueCase:
+        type: "string"
+        description: "A given written realisation of a an entry (e.g., \"lay\") usually\
+          \ lower case"
+      wordform:
+        type: "string"
+        description: "A given written realisation of a an entry (e.g., \"lay\") preserving\
+          \ case"
+    description: "Statistical information about a word"
+    example:
+      normalizedFrequency: 6
+      wordform: "wordform"
+      lexicalCategory: "lexicalCategory"
+      lemma: "lemma"
+      trueCase: "trueCase"
+      frequency: 0
+  SynonymsAntonyms_inner:
+    required:
+    - "id"
+    - "text"
+    properties:
+      domains:
+        $ref: "#/definitions/arrayofstrings"
+      id:
+        type: "string"
+      language:
+        type: "string"
+      regions:
+        description: "A particular area in which the Sense occurs, e.g. 'Great Britain'"
+        $ref: "#/definitions/arrayofstrings"
+      registers:
+        description: "A level of language usage, typically with respect to formality.\
+          \ e.g. 'offensive', 'informal'"
+        $ref: "#/definitions/arrayofstrings"
+      text:
+        type: "string"
+  TranslationsList_inner:
+    required:
+    - "language"
+    - "text"
+    properties:
+      domains:
+        description: "A subject, discipline, or branch of knowledge particular to\
+          \ the translation"
+        $ref: "#/definitions/arrayofstrings"
+      grammaticalFeatures:
+        $ref: "#/definitions/GrammaticalFeaturesList"
+      language:
+        type: "string"
+        description: "IANA language code specifying the language of the translation"
+      notes:
+        $ref: "#/definitions/CategorizedTextList"
+      regions:
+        description: "A particular area in which the translation occurs, e.g. 'Great\
+          \ Britain'"
+        $ref: "#/definitions/arrayofstrings"
+      registers:
+        description: "A level of language usage, typically with respect to formality.\
+          \ e.g. 'offensive', 'informal'"
+        $ref: "#/definitions/arrayofstrings"
+      text:
+        type: "string"
+  UtilityLabels_results:
+    properties:
+      en:
+        type: "string"
+        description: "Label in English"
+    description: "the list of labels for an object. Every object can be a lexical\
+      \ category, or a register, or a domain."
+    example:
+      en: "en"
+  VariantFormsList_inner:
+    required:
+    - "text"
+    properties:
+      regions:
+        description: "A particular area in which the variant form occurs, e.g. 'Great\
+          \ Britain'"
+        $ref: "#/definitions/arrayofstrings"
+      text:
+        type: "string"
+  Wordlist_results:
+    required:
+    - "id"
+    - "word"
+    properties:
+      id:
+        type: "string"
+        description: "The identifier of a word"
+      matchType:
+        type: "string"
+      region:
+        type: "string"
+        description: "Name of region."
+      word:
+        type: "string"
+        description: "A given written or spoken realisation of a an entry, lowercased."
+    description: "Description of found word"
+    example:
+      matchType: "matchType"
+      id: "id"
+      region: "region"
+      word: "word"
+parameters:
+  entriesWordId:
+    name: "word_id"
+    in: "path"
+    description: "An Entry identifier. Case-sensitive."
+    required: true
+    type: "string"
+    default: "ace"
+    x-exportParamName: "WordId"
+  thesaurus-source_lang:
+    name: "source_lang"
+    in: "path"
+    description: "IANA language code"
+    required: true
+    type: "string"
+    enum:
+    - "en"
+    x-exportParamName: "SourceLang"
+  monolingual-source_lang:
+    name: "source_lang"
+    in: "path"
+    description: "IANA language code"
+    required: true
+    type: "string"
+    enum:
+    - "en"
+    - "es"
+    - "lv"
+    - "hi"
+    - "sw"
+    - "ta"
+    - "gu"
+    x-exportParamName: "SourceLang"
+  monolingual-lemmatron-source_lang:
+    name: "source_lang"
+    in: "path"
+    description: "IANA language code"
+    required: true
+    type: "string"
+    enum:
+    - "en"
+    - "es"
+    - "hi"
+    - "nso"
+    - "tn"
+    - "zu"
+    - "de"
+    - "pt"
+    x-exportParamName: "SourceLang"
+  monolingual-wordlist-source_lang:
+    name: "source_lang"
+    in: "path"
+    description: "IANA language code"
+    required: true
+    type: "string"
+    enum:
+    - "en"
+    - "es"
+    - "hi"
+    - "lv"
+    - "sw"
+    - "ta"
+    - "gu"
+    x-exportParamName: "SourceLang"
+  appId:
+    name: "app_id"
+    in: "header"
+    description: "App ID Authentication Parameter"
+    required: true
+    type: "string"
+    default: "5037d509"
+    x-data-threescale-name: "app_ids"
+    x-exportParamName: "AppId"
+  appKey:
+    name: "app_key"
+    in: "header"
+    description: "App Key Authentication Parameter"
+    required: true
+    type: "string"
+    default: "4dc1aebaa63721f0f8e79a55e2514bc7"
+    x-data-threescale-name: "app_keys"
+    x-exportParamName: "AppKey"
+  keyValFilters:
+    name: "filters"
+    in: "path"
+    description: "Separate filtering conditions using a semicolon. Conditions take\
+      \ values grammaticalFeatures and/or lexicalCategory and are case-sensitive.\
+      \ To list multiple values in single condition divide them with comma."
+    required: true
+    type: "array"
+    items:
+      type: "string"
+      pattern: "(lexicalCategory|grammaticalFeatures)=.+"
+    collectionFormat: "csv"
+    default: "grammaticalFeatures=singular,past;lexicalCategory=noun"
+    x-exportParamName: "Filters"

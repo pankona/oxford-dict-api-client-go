@@ -1,5 +1,5 @@
 
-SWAGGER_CODEGEN_CLI_VER  = 2.2.1
+SWAGGER_CODEGEN_CLI_VER  = 2.3.1
 SWAGGER_CODEGEN_JAR      = swagger-codegen-cli-$(SWAGGER_CODEGEN_CLI_VER).jar
 SWAGGER_CODEGEN_DEST_DIR = $(CURDIR)/client
 SWAGGER_YAML             = public_doc_guest.json
@@ -22,5 +22,5 @@ $(CURDIR)/$(SWAGGER_CODEGEN_JAR):
 
 clean:
 	rm -f $(CURDIR)/public_doc_guest.json
-	rm -f $(CURDIR)/$(SWAGGER_CODEGEN_JAR)
+	rm -f $(CURDIR)/*.jar
 	rm -rf $(SWAGGER_CODEGEN_DEST_DIR)

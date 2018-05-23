@@ -17,21 +17,20 @@ Method | HTTP request | Description
 
 
 # **DomainsSourceDomainsLanguageTargetDomainsLanguageGet**
-> UtilityLabels DomainsSourceDomainsLanguageTargetDomainsLanguageGet($sourceDomainsLanguage, $targetDomainsLanguage, $appId, $appKey)
-
+> UtilityLabels DomainsSourceDomainsLanguageTargetDomainsLanguageGet(ctx, sourceDomainsLanguage, targetDomainsLanguage, appId, appKey)
 Lists available domains in a bilingual dataset
 
 Returns a list of the available [domains](documentation/glossary?term=domain) for a given bilingual language dataset. 
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **sourceDomainsLanguage** | **string**| IANA language code | 
- **targetDomainsLanguage** | **string**| IANA language code | 
- **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
- **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **sourceDomainsLanguage** | **string**| IANA language code | 
+  **targetDomainsLanguage** | **string**| IANA language code | 
+  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
+  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
 
 ### Return type
 
@@ -49,20 +48,19 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **DomainsSourceLanguageGet**
-> UtilityLabels DomainsSourceLanguageGet($sourceLanguage, $appId, $appKey)
-
+> UtilityLabels DomainsSourceLanguageGet(ctx, sourceLanguage, appId, appKey)
 Lists available domains in a monolingual dataset
 
 Returns a list of the available [domains](documentation/glossary?term=domain) for a given monolingual language dataset. 
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **sourceLanguage** | **string**| IANA language code | 
- **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
- **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **sourceLanguage** | **string**| IANA language code | 
+  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
+  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
 
 ### Return type
 
@@ -80,20 +78,19 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **FiltersEndpointGet**
-> Filters FiltersEndpointGet($endpoint, $appId, $appKey)
-
+> Filters FiltersEndpointGet(ctx, endpoint, appId, appKey)
 Lists available filters for specific endpoint
 
 Returns a list of all the valid filters for a given endpoint to construct API calls. 
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **endpoint** | **string**| Name of the endpoint. | 
- **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
- **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **endpoint** | **string**| Name of the endpoint. | 
+  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
+  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
 
 ### Return type
 
@@ -111,19 +108,18 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **FiltersGet**
-> Filters FiltersGet($appId, $appKey)
-
+> Filters FiltersGet(ctx, appId, appKey)
 Lists available filters
 
 Returns a list of all the valid filters to construct API calls. 
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
- **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
+  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
 
 ### Return type
 
@@ -141,20 +137,19 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **GrammaticalFeaturesSourceLanguageGet**
-> UtilityLabels GrammaticalFeaturesSourceLanguageGet($sourceLanguage, $appId, $appKey)
-
+> UtilityLabels GrammaticalFeaturesSourceLanguageGet(ctx, sourceLanguage, appId, appKey)
 Lists available grammatical features in a dataset
 
 Returns a list of the available [grammatical features](documentation/glossary?term=grammaticalfeatures) for a given language dataset. 
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **sourceLanguage** | **string**| IANA language code. If provided output will be filtered by sourceLanguage. | 
- **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
- **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **sourceLanguage** | **string**| IANA language code. If provided output will be filtered by sourceLanguage. | 
+  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
+  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
 
 ### Return type
 
@@ -172,21 +167,29 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **LanguagesGet**
-> Languages LanguagesGet($appId, $appKey, $sourceLanguage, $targetLanguage)
-
+> Languages LanguagesGet(ctx, appId, appKey, optional)
 Lists available dictionaries
 
 Returns a list of monolingual and bilingual language datasets available in the API 
 
+### Required Parameters
 
-### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
+  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
- **sourceLanguage** | **string**| IANA language code. If provided output will be filtered by sourceLanguage. | [optional] 
- **targetLanguage** | **string**| IANA language code. If provided output will be filtered by sourceLanguage. | [optional] 
+ **sourceLanguage** | **string**| IANA language code. If provided output will be filtered by sourceLanguage. | 
+ **targetLanguage** | **string**| IANA language code. If provided output will be filtered by sourceLanguage. | 
 
 ### Return type
 
@@ -204,20 +207,19 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **LexicalcategoriesLanguageGet**
-> UtilityLabels LexicalcategoriesLanguageGet($language, $appId, $appKey)
-
+> UtilityLabels LexicalcategoriesLanguageGet(ctx, language, appId, appKey)
 Lists available lexical categories in a dataset
 
 Returns a list of available [lexical categories](documentation/glossary?term=lexicalcategory) for a given language dataset. 
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **language** | **string**| IANA language code | 
- **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
- **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **language** | **string**| IANA language code | 
+  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
+  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
 
 ### Return type
 
@@ -235,20 +237,19 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **RegionsSourceLanguageGet**
-> Regions RegionsSourceLanguageGet($sourceLanguage, $appId, $appKey)
-
+> Regions RegionsSourceLanguageGet(ctx, sourceLanguage, appId, appKey)
 Lists available regions in a monolingual dataset
 
 Returns a list of the available [regions](documentation/glossary?term=regions) for a given monolingual language dataset. 
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **sourceLanguage** | **string**| IANA language code | 
- **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
- **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **sourceLanguage** | **string**| IANA language code | 
+  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
+  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
 
 ### Return type
 
@@ -266,20 +267,19 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **RegistersSourceLanguageGet**
-> UtilityLabels RegistersSourceLanguageGet($sourceLanguage, $appId, $appKey)
-
+> UtilityLabels RegistersSourceLanguageGet(ctx, sourceLanguage, appId, appKey)
 Lists available registers in a  monolingual dataset
 
 Returns a list of the available [registers](documentation/glossary?term=registers) for a given monolingual language dataset. 
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **sourceLanguage** | **string**| IANA language code | 
- **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
- **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **sourceLanguage** | **string**| IANA language code | 
+  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
+  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
 
 ### Return type
 
@@ -297,21 +297,20 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **RegistersSourceRegisterLanguageTargetRegisterLanguageGet**
-> UtilityLabels RegistersSourceRegisterLanguageTargetRegisterLanguageGet($sourceRegisterLanguage, $targetRegisterLanguage, $appId, $appKey)
-
+> UtilityLabels RegistersSourceRegisterLanguageTargetRegisterLanguageGet(ctx, sourceRegisterLanguage, targetRegisterLanguage, appId, appKey)
 Lists available registers in a bilingual dataset
 
 Returns a list of the available [registers](documentation/glossary?term=registers) for a given bilingual language dataset. 
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **sourceRegisterLanguage** | **string**| IANA language code | 
- **targetRegisterLanguage** | **string**| IANA language code | 
- **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
- **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **sourceRegisterLanguage** | **string**| IANA language code | 
+  **targetRegisterLanguage** | **string**| IANA language code | 
+  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
+  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
 
 ### Return type
 
