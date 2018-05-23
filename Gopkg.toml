@@ -21,5 +21,9 @@
 
 
 [[constraint]]
-  name = "github.com/go-resty/resty"
-  version = "1.5.0"
+  branch = "master"
+  name = "golang.org/x/net"
+
+[[constraint]]
+  branch = "master"
+  name = "golang.org/x/oauth2"
