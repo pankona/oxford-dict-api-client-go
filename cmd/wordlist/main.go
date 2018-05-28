@@ -10,7 +10,6 @@ import (
 
 func main() {
 	cfg := client.NewConfiguration()
-	cfg.BasePath = "https://od-api.oxforddictionaries.com/api/v1"
 	c := client.NewAPIClient(cfg)
 
 	var (
