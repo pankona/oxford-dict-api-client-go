@@ -2,7 +2,7 @@
 SWAGGER_CODEGEN_CLI_VER   := 2.3.1
 SWAGGER_CODEGEN_JAR       := swagger-codegen-cli-$(SWAGGER_CODEGEN_CLI_VER).jar
 SWAGGER_CODEGEN_DEST_DIR  := client
-SWAGGER_YAML              := public_doc_guest.json
+SWAGGER_YAML              := public_doc_registered.json
 SWAGGER_YAML_GET_FROM_URL := https://developer.oxforddictionaries.com/swagger/spec/$(SWAGGER_YAML)
 TMPDIR                    := $(shell mktemp -d)
 
