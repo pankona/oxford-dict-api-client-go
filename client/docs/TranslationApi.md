@@ -1,6 +1,6 @@
 # \TranslationApi
 
-All URIs are relative to *https://od-api-demo.oxforddictionaries.com:443/api/v1*
+All URIs are relative to *https://od-api.oxforddictionaries.com:443/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -21,8 +21,8 @@ Name | Type | Description  | Notes
   **sourceTranslationLanguage** | **string**| IANA language code | 
   **wordId** | **string**| The source word | 
   **targetTranslationLanguage** | **string**| IANA language code | 
-  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
-  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+  **appId** | **string**| App ID Authentication Parameter | [default to ]
+  **appKey** | **string**| App Key Authentication Parameter | [default to ]
 
 ### Return type
 

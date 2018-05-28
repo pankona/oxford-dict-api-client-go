@@ -7,7 +7,7 @@ info:
   license:
     name: "API Terms And Conditions"
     url: "https://developer.oxforddictionaries.com/api-terms-and-conditions"
-host: "od-api-demo.oxforddictionaries.com:443"
+host: "od-api.oxforddictionaries.com:443"
 basePath: "/api/v1"
 schemes:
 - "https"
@@ -54,7 +54,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -62,7 +61,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -124,7 +122,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -132,7 +129,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -185,7 +181,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -193,7 +188,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -250,7 +244,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -258,7 +251,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -329,7 +321,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -337,7 +328,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -380,7 +370,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -388,7 +377,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -434,7 +422,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -442,7 +429,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -488,7 +474,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -496,7 +481,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -580,7 +564,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -588,7 +571,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -689,7 +671,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -697,7 +678,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -771,7 +751,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -779,7 +758,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -856,7 +834,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -864,7 +841,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -988,7 +964,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -996,7 +971,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -1047,7 +1021,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -1055,7 +1028,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -1150,7 +1122,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -1158,7 +1129,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -1332,7 +1302,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -1340,7 +1309,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -1518,7 +1486,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -1526,7 +1493,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -1598,7 +1564,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -1606,7 +1571,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -1633,7 +1597,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -1641,7 +1604,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -1677,7 +1639,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -1685,7 +1646,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -1736,7 +1696,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -1744,7 +1703,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -1791,7 +1749,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -1799,7 +1756,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -1858,7 +1814,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -1866,7 +1821,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -1914,7 +1868,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -1922,7 +1875,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -1978,7 +1930,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -1986,7 +1937,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -2022,7 +1972,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -2030,7 +1979,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -2077,7 +2025,6 @@ paths:
         description: "App ID Authentication Parameter"
         required: true
         type: "string"
-        default: "5037d509"
         x-data-threescale-name: "app_ids"
         x-exportParamName: "AppId"
       - name: "app_key"
@@ -2085,7 +2032,6 @@ paths:
         description: "App Key Authentication Parameter"
         required: true
         type: "string"
-        default: "4dc1aebaa63721f0f8e79a55e2514bc7"
         x-data-threescale-name: "app_keys"
         x-exportParamName: "AppKey"
       responses:
@@ -4608,7 +4554,6 @@ parameters:
     description: "App ID Authentication Parameter"
     required: true
     type: "string"
-    default: "5037d509"
     x-data-threescale-name: "app_ids"
     x-exportParamName: "AppId"
   appKey:
@@ -4617,7 +4562,6 @@ parameters:
     description: "App Key Authentication Parameter"
     required: true
     type: "string"
-    default: "4dc1aebaa63721f0f8e79a55e2514bc7"
     x-data-threescale-name: "app_keys"
     x-exportParamName: "AppKey"
   keyValFilters:

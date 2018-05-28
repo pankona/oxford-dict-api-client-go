@@ -1,6 +1,6 @@
 # \UtilityApi
 
-All URIs are relative to *https://od-api-demo.oxforddictionaries.com:443/api/v1*
+All URIs are relative to *https://od-api.oxforddictionaries.com:443/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -29,8 +29,8 @@ Name | Type | Description  | Notes
  **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **sourceDomainsLanguage** | **string**| IANA language code | 
   **targetDomainsLanguage** | **string**| IANA language code | 
-  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
-  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+  **appId** | **string**| App ID Authentication Parameter | [default to ]
+  **appKey** | **string**| App Key Authentication Parameter | [default to ]
 
 ### Return type
 
@@ -59,8 +59,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **sourceLanguage** | **string**| IANA language code | 
-  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
-  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+  **appId** | **string**| App ID Authentication Parameter | [default to ]
+  **appKey** | **string**| App Key Authentication Parameter | [default to ]
 
 ### Return type
 
@@ -89,8 +89,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **endpoint** | **string**| Name of the endpoint. | 
-  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
-  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+  **appId** | **string**| App ID Authentication Parameter | [default to ]
+  **appKey** | **string**| App Key Authentication Parameter | [default to ]
 
 ### Return type
 
@@ -118,8 +118,8 @@ Returns a list of all the valid filters to construct API calls.
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
-  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
-  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+  **appId** | **string**| App ID Authentication Parameter | [default to ]
+  **appKey** | **string**| App Key Authentication Parameter | [default to ]
 
 ### Return type
 
@@ -148,8 +148,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **sourceLanguage** | **string**| IANA language code. If provided output will be filtered by sourceLanguage. | 
-  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
-  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+  **appId** | **string**| App ID Authentication Parameter | [default to ]
+  **appKey** | **string**| App Key Authentication Parameter | [default to ]
 
 ### Return type
 
@@ -177,8 +177,8 @@ Returns a list of monolingual and bilingual language datasets available in the A
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
-  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
-  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+  **appId** | **string**| App ID Authentication Parameter | [default to ]
+  **appKey** | **string**| App Key Authentication Parameter | [default to ]
  **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
 
 ### Optional Parameters
@@ -186,8 +186,8 @@ Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
- **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+ **appId** | **string**| App ID Authentication Parameter | [default to ]
+ **appKey** | **string**| App Key Authentication Parameter | [default to ]
  **sourceLanguage** | **string**| IANA language code. If provided output will be filtered by sourceLanguage. | 
  **targetLanguage** | **string**| IANA language code. If provided output will be filtered by sourceLanguage. | 
 
@@ -218,8 +218,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **language** | **string**| IANA language code | 
-  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
-  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+  **appId** | **string**| App ID Authentication Parameter | [default to ]
+  **appKey** | **string**| App Key Authentication Parameter | [default to ]
 
 ### Return type
 
@@ -248,8 +248,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **sourceLanguage** | **string**| IANA language code | 
-  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
-  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+  **appId** | **string**| App ID Authentication Parameter | [default to ]
+  **appKey** | **string**| App Key Authentication Parameter | [default to ]
 
 ### Return type
 
@@ -278,8 +278,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **sourceLanguage** | **string**| IANA language code | 
-  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
-  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+  **appId** | **string**| App ID Authentication Parameter | [default to ]
+  **appKey** | **string**| App Key Authentication Parameter | [default to ]
 
 ### Return type
 
@@ -309,8 +309,8 @@ Name | Type | Description  | Notes
  **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **sourceRegisterLanguage** | **string**| IANA language code | 
   **targetRegisterLanguage** | **string**| IANA language code | 
-  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
-  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+  **appId** | **string**| App ID Authentication Parameter | [default to ]
+  **appKey** | **string**| App Key Authentication Parameter | [default to ]
 
 ### Return type
 

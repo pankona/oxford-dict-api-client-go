@@ -1,6 +1,6 @@
 # \WordlistApi
 
-All URIs are relative to *https://od-api-demo.oxforddictionaries.com:443/api/v1*
+All URIs are relative to *https://od-api.oxforddictionaries.com:443/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -21,8 +21,8 @@ Name | Type | Description  | Notes
  **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **sourceLang** | **string**| IANA language code | 
   **filtersAdvanced** | **string**| Semicolon separated list of wordlist parameters, presented as value pairs: LexicalCategory, domains, regions, registers. Parameters can take comma separated list of values. E.g., lexicalCategory&#x3D;noun,adjective;domains&#x3D;sport. Number of values limited to 5. | 
-  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
-  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+  **appId** | **string**| App ID Authentication Parameter | [default to ]
+  **appKey** | **string**| App Key Authentication Parameter | [default to ]
  **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
 
 ### Optional Parameters
@@ -32,8 +32,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **sourceLang** | **string**| IANA language code | 
  **filtersAdvanced** | **string**| Semicolon separated list of wordlist parameters, presented as value pairs: LexicalCategory, domains, regions, registers. Parameters can take comma separated list of values. E.g., lexicalCategory&#x3D;noun,adjective;domains&#x3D;sport. Number of values limited to 5. | 
- **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
- **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+ **appId** | **string**| App ID Authentication Parameter | [default to ]
+ **appKey** | **string**| App Key Authentication Parameter | [default to ]
  **exclude** | **string**| Semicolon separated list of parameters-value pairs (same as filters). Excludes headwords that have any senses in specified exclusion attributes (lexical categories, domains, etc.) from results. | 
  **excludeSenses** | **string**| Semicolon separated list of parameters-value pairs (same as filters). Excludes only those senses of a particular headword that match specified exclusion attributes (lexical categories, domains, etc.) from results but includes the headword if it has other permitted senses. | 
  **excludePrimeSenses** | **string**| Semicolon separated list of parameters-value pairs (same as filters). Excludes a headword only if the primary sense matches the specified exclusion attributes (registers, domains only). | 
@@ -71,8 +71,8 @@ Name | Type | Description  | Notes
  **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **sourceLang** | **string**| IANA language code | 
   **filtersBasic** | **string**| Semicolon separated list of wordlist parameters, presented as value pairs: LexicalCategory, domains, regions, registers. Parameters can take comma separated list of values. E.g., lexicalCategory&#x3D;noun,adjective;domains&#x3D;sport. Number of values limited to 5. | 
-  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
-  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+  **appId** | **string**| App ID Authentication Parameter | [default to ]
+  **appKey** | **string**| App Key Authentication Parameter | [default to ]
  **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
 
 ### Optional Parameters
@@ -82,8 +82,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **sourceLang** | **string**| IANA language code | 
  **filtersBasic** | **string**| Semicolon separated list of wordlist parameters, presented as value pairs: LexicalCategory, domains, regions, registers. Parameters can take comma separated list of values. E.g., lexicalCategory&#x3D;noun,adjective;domains&#x3D;sport. Number of values limited to 5. | 
- **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
- **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+ **appId** | **string**| App ID Authentication Parameter | [default to ]
+ **appKey** | **string**| App Key Authentication Parameter | [default to ]
  **limit** | **string**| Limit the number of results per response. Default and maximum limit is 5000. | 
  **offset** | **string**| Offset the start number of the result | 
 

@@ -17,7 +17,7 @@ Put the package under your project folder and add the following in import:
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://od-api-demo.oxforddictionaries.com:443/api/v1*
+All URIs are relative to *https://od-api.oxforddictionaries.com:443/api/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------

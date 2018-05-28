@@ -1,6 +1,6 @@
 # \LexiStatsApi
 
-All URIs are relative to *https://od-api-demo.oxforddictionaries.com:443/api/v1*
+All URIs are relative to *https://od-api.oxforddictionaries.com:443/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -23,8 +23,8 @@ Name | Type | Description  | Notes
   **sourceLang** | **string**| IANA language code | 
   **corpus** | **string**| For corpora other than &#39;nmc&#39; (New Monitor Corpus) please contact api@oxforddictionaries.com | 
   **ngramSize** | **string**| the size of ngrams requested (1-4) | 
-  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
-  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+  **appId** | **string**| App ID Authentication Parameter | [default to ]
+  **appKey** | **string**| App Key Authentication Parameter | [default to ]
  **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
 
 ### Optional Parameters
@@ -35,8 +35,8 @@ Name | Type | Description  | Notes
  **sourceLang** | **string**| IANA language code | 
  **corpus** | **string**| For corpora other than &#39;nmc&#39; (New Monitor Corpus) please contact api@oxforddictionaries.com | 
  **ngramSize** | **string**| the size of ngrams requested (1-4) | 
- **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
- **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+ **appId** | **string**| App ID Authentication Parameter | [default to ]
+ **appKey** | **string**| App Key Authentication Parameter | [default to ]
  **tokens** | **string**| List of tokens to filter. The tokens are separated by spaces, the list items are separated by comma (e.g., for bigrams (n&#x3D;2) tokens&#x3D;this is,this was, this will) | [default to a word]
  **contains** | **string**| Find ngrams containing the given token(s). Use comma or space as token separators; the order of tokens is irrelevant. | 
  **punctuation** | **string**| Flag specifying whether to lookup ngrams that include punctuation or not (possible values are \&quot;true\&quot; and \&quot;false\&quot;; default is \&quot;false\&quot;) | 
@@ -77,8 +77,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **sourceLang** | **string**| IANA language code | 
-  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
-  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+  **appId** | **string**| App ID Authentication Parameter | [default to ]
+  **appKey** | **string**| App Key Authentication Parameter | [default to ]
  **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
 
 ### Optional Parameters
@@ -87,8 +87,8 @@ Optional parameters are passed through a map[string]interface{}.
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **sourceLang** | **string**| IANA language code | 
- **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
- **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+ **appId** | **string**| App ID Authentication Parameter | [default to ]
+ **appKey** | **string**| App Key Authentication Parameter | [default to ]
  **corpus** | **string**| For corpora other than &#39;nmc&#39; (New Monitor Corpus) please contact api@oxforddictionaries.com | [default to nmc]
  **wordform** | **string**| The written form of the word to look up (preserving case e.g., Books vs books) | 
  **trueCase** | **string**| The written form of the word to look up with normalised case (Books --&gt; books) | 
@@ -122,8 +122,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **sourceLang** | **string**| IANA language code | 
-  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
-  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+  **appId** | **string**| App ID Authentication Parameter | [default to ]
+  **appKey** | **string**| App Key Authentication Parameter | [default to ]
  **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
 
 ### Optional Parameters
@@ -132,8 +132,8 @@ Optional parameters are passed through a map[string]interface{}.
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **sourceLang** | **string**| IANA language code | 
- **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
- **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+ **appId** | **string**| App ID Authentication Parameter | [default to ]
+ **appKey** | **string**| App Key Authentication Parameter | [default to ]
  **corpus** | **string**| For corpora other than &#39;nmc&#39; (New Monitor Corpus) please contact api@oxforddictionaries.com | [default to nmc]
  **wordform** | **string**| The written form of the word to look up (preserving case e.g., Book vs book) | 
  **trueCase** | **string**| The written form of the word to look up with normalised case (Books --&gt; books) | 

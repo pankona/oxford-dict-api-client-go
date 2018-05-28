@@ -1,6 +1,6 @@
 # \LemmatronApi
 
-All URIs are relative to *https://od-api-demo.oxforddictionaries.com:443/api/v1*
+All URIs are relative to *https://od-api.oxforddictionaries.com:443/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -22,8 +22,8 @@ Name | Type | Description  | Notes
   **sourceLang** | **string**| IANA language code | 
   **wordId** | **string**| The input word | 
   **filters** | [**[]string**](string.md)| Separate filtering conditions using a semicolon. Conditions take values grammaticalFeatures and/or lexicalCategory and are case-sensitive. To list multiple values in single condition divide them with comma. | 
-  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
-  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+  **appId** | **string**| App ID Authentication Parameter | [default to ]
+  **appKey** | **string**| App Key Authentication Parameter | [default to ]
 
 ### Return type
 
@@ -53,8 +53,8 @@ Name | Type | Description  | Notes
  **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **sourceLang** | **string**| IANA language code | 
   **wordId** | **string**| The input word | 
-  **appId** | **string**| App ID Authentication Parameter | [default to 5037d509]
-  **appKey** | **string**| App Key Authentication Parameter | [default to 4dc1aebaa63721f0f8e79a55e2514bc7]
+  **appId** | **string**| App ID Authentication Parameter | [default to ]
+  **appKey** | **string**| App Key Authentication Parameter | [default to ]
 
 ### Return type
 
