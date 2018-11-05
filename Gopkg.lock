@@ -11,14 +11,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:adaa2b62008c6a7526cc657c904f759fd290e3bccd5ccbfb65d0a4e12c8eb442"
+  digest = "1:af3033f983c5f38e29c0f3c9927d96e938896f4d2e14c333d81d75f93eadd78f"
   name = "golang.org/x/net"
   packages = [
     "context",
     "context/ctxhttp",
   ]
   pruneopts = ""
-  revision = "b7e296877c6e5e01665044d943c8e6d10ce72a99"
+  revision = "c10e9556a7bc0e7c942242b606f0acf024ad5d6a"
 
 [[projects]]
   branch = "master"
