@@ -36,7 +36,7 @@ type DictionaryEntriesApiService service
 @param appId App ID Authentication Parameter
 @param appKey App Key Authentication Parameter
 @return RetrieveEntry*/
-func (a *DictionaryEntriesApiService) EntriesSourceLangWordIdFiltersGet(ctx context.Context, sourceLang string, wordId string, filters []string, appId string, appKey string) (RetrieveEntry, *http.Response, error) {
+func (a *DictionaryEntriesApiService) EntriesSourceLangWordIdFiltersGet(ctx context.Context, sourceLang string, wordId string, filters string, appId string, appKey string) (RetrieveEntry, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}

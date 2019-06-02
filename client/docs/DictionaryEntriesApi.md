@@ -22,7 +22,7 @@ Name | Type | Description  | Notes
  **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **sourceLang** | **string**| IANA language code | 
   **wordId** | **string**| An Entry identifier. Case-sensitive. | 
-  **filters** | [**[]string**](string.md)| Separate filtering conditions using a semicolon. Conditions take values grammaticalFeatures and/or lexicalCategory and are case-sensitive. To list multiple values in single condition divide them with comma. | 
+  **filters** | **string**| Separate filtering conditions using a semicolon. Conditions take values grammaticalFeatures and/or lexicalCategory and are case-sensitive. To list multiple values in single condition divide them with comma. | 
   **appId** | **string**| App ID Authentication Parameter | [default to ]
   **appKey** | **string**| App Key Authentication Parameter | [default to ]
 

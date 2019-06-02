@@ -14,7 +14,7 @@ schemes:
 produces:
 - "application/json"
 paths:
-  /inflections/{source_lang}/{word_id}:
+  /inflections/{source_lang}/{word_id}/{filters}:
     get:
       tags:
       - "Lemmatron"
@@ -42,6 +42,19 @@ paths:
         - "de"
         - "pt"
         x-exportParamName: "SourceLang"
+      - name: "filters"
+        in: "path"
+        description: "Separate filtering conditions using a semicolon. Conditions\
+          \ take values grammaticalFeatures and/or lexicalCategory and are case-sensitive.\
+          \ To list multiple values in single condition divide them with comma."
+        required: true
+        type: "string"
+        items:
+          type: "string"
+          pattern: "(lexicalCategory|grammaticalFeatures)=.+"
+        collectionFormat: "csv"
+        default: "grammaticalFeatures=singular,past;lexicalCategory=noun"
+        x-exportParamName: "Filters"
       - name: "word_id"
         in: "path"
         description: "The input word"
@@ -49,74 +62,6 @@ paths:
         type: "string"
         default: "swimming"
         x-exportParamName: "WordId"
-      - name: "app_id"
-        in: "header"
-        description: "App ID Authentication Parameter"
-        required: true
-        type: "string"
-        x-data-threescale-name: "app_ids"
-        x-exportParamName: "AppId"
-      - name: "app_key"
-        in: "header"
-        description: "App Key Authentication Parameter"
-        required: true
-        type: "string"
-        x-data-threescale-name: "app_keys"
-        x-exportParamName: "AppKey"
-      responses:
-        200:
-          description: "Successful response."
-          schema:
-            title: "InflectionsResults"
-            $ref: "#/definitions/Lemmatron"
-        500:
-          description: "Internal Error. An error occurred while processing the data.\n"
-  /inflections/{source_lang}/{word_id}/{filters}:
-    get:
-      tags:
-      - "Lemmatron"
-      summary: "Apply optional filters to Lemmatron response"
-      description: "\nRetrieve available [lemmas](documentation/glossary?term=lemma)\
-        \ for a given [inflected](documentation/glossary?term=inflection) wordform.\
-        \ Filter results by categories.  \n\n  <div id=\"lemmatron_filters\"></div>\n"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "source_lang"
-        in: "path"
-        description: "IANA language code"
-        required: true
-        type: "string"
-        enum:
-        - "en"
-        - "es"
-        - "hi"
-        - "nso"
-        - "tn"
-        - "zu"
-        - "de"
-        - "pt"
-        x-exportParamName: "SourceLang"
-      - name: "word_id"
-        in: "path"
-        description: "The input word"
-        required: true
-        type: "string"
-        default: "change"
-        x-exportParamName: "WordId"
-      - name: "filters"
-        in: "path"
-        description: "Separate filtering conditions using a semicolon. Conditions\
-          \ take values grammaticalFeatures and/or lexicalCategory and are case-sensitive.\
-          \ To list multiple values in single condition divide them with comma."
-        required: true
-        type: "array"
-        items:
-          type: "string"
-          pattern: "(lexicalCategory|grammaticalFeatures)=.+"
-        collectionFormat: "csv"
-        default: "grammaticalFeatures=singular,past;lexicalCategory=noun"
-        x-exportParamName: "Filters"
       - name: "app_id"
         in: "header"
         description: "App ID Authentication Parameter"
@@ -168,6 +113,7 @@ paths:
         - "sw"
         - "ta"
         - "gu"
+        - "fr"
         x-exportParamName: "SourceLang"
       - name: "word_id"
         in: "path"
@@ -295,6 +241,7 @@ paths:
         - "sw"
         - "ta"
         - "gu"
+        - "fr"
         x-exportParamName: "SourceLang"
       - name: "word_id"
         in: "path"
@@ -309,7 +256,7 @@ paths:
           \ take values grammaticalFeatures and/or lexicalCategory and are case-sensitive.\
           \ To list multiple values in single condition divide them with comma."
         required: true
-        type: "array"
+        type: "string"
         items:
           type: "string"
           pattern: "(lexicalCategory|grammaticalFeatures)=.+"
@@ -4492,7 +4439,6 @@ parameters:
     required: true
     type: "string"
     default: "ace"
-    x-exportParamName: "WordId"
   thesaurus-source_lang:
     name: "source_lang"
     in: "path"
@@ -4501,7 +4447,6 @@ parameters:
     type: "string"
     enum:
     - "en"
-    x-exportParamName: "SourceLang"
   monolingual-source_lang:
     name: "source_lang"
     in: "path"
@@ -4516,7 +4461,7 @@ parameters:
     - "sw"
     - "ta"
     - "gu"
-    x-exportParamName: "SourceLang"
+    - "fr"
   monolingual-lemmatron-source_lang:
     name: "source_lang"
     in: "path"
@@ -4532,7 +4477,6 @@ parameters:
     - "zu"
     - "de"
     - "pt"
-    x-exportParamName: "SourceLang"
   monolingual-wordlist-source_lang:
     name: "source_lang"
     in: "path"
@@ -4547,7 +4491,6 @@ parameters:
     - "sw"
     - "ta"
     - "gu"
-    x-exportParamName: "SourceLang"
   appId:
     name: "app_id"
     in: "header"
@@ -4571,10 +4514,9 @@ parameters:
       \ values grammaticalFeatures and/or lexicalCategory and are case-sensitive.\
       \ To list multiple values in single condition divide them with comma."
     required: true
-    type: "array"
+    type: "string"
     items:
       type: "string"
       pattern: "(lexicalCategory|grammaticalFeatures)=.+"
     collectionFormat: "csv"
     default: "grammaticalFeatures=singular,past;lexicalCategory=noun"
-    x-exportParamName: "Filters"

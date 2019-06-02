@@ -27,16 +27,16 @@ var (
 
 type LemmatronApiService service
 
-/* LemmatronApiService Apply optional filters to Lemmatron response
- Retrieve available [lemmas](documentation/glossary?term&#x3D;lemma) for a given [inflected](documentation/glossary?term&#x3D;inflection) wordform. Filter results by categories.      &lt;div id&#x3D;\&quot;lemmatron_filters\&quot;&gt;&lt;/div&gt;
+/* LemmatronApiService Check a word exists in the dictionary and retrieve its root form
+ Use this to check if a word exists in the dictionary, or what &#39;root&#39; form it links to (e.g., swimming &gt; swim). The response tells you the possible [lemmas](documentation/glossary?term&#x3D;lemma) for a given [inflected](documentation/glossary?term&#x3D;inflection) word. This can then be combined with other endpoints to retrieve more information.    &lt;div id&#x3D;\&quot;lemmatron\&quot;&gt;&lt;/div&gt;
 * @param ctx context.Context for authentication, logging, tracing, etc.
 @param sourceLang IANA language code
-@param wordId The input word
 @param filters Separate filtering conditions using a semicolon. Conditions take values grammaticalFeatures and/or lexicalCategory and are case-sensitive. To list multiple values in single condition divide them with comma.
+@param wordId The input word
 @param appId App ID Authentication Parameter
 @param appKey App Key Authentication Parameter
 @return Lemmatron*/
-func (a *LemmatronApiService) InflectionsSourceLangWordIdFiltersGet(ctx context.Context, sourceLang string, wordId string, filters []string, appId string, appKey string) (Lemmatron, *http.Response, error) {
+func (a *LemmatronApiService) InflectionsSourceLangWordIdFiltersGet(ctx context.Context, sourceLang string, filters string, wordId string, appId string, appKey string) (Lemmatron, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -48,76 +48,7 @@ func (a *LemmatronApiService) InflectionsSourceLangWordIdFiltersGet(ctx context.
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/inflections/{source_lang}/{word_id}/{filters}"
 	localVarPath = strings.Replace(localVarPath, "{"+"source_lang"+"}", fmt.Sprintf("%v", sourceLang), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"word_id"+"}", fmt.Sprintf("%v", wordId), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"filters"+"}", fmt.Sprintf("%v", filters), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
-	if localVarHttpContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHttpContentType
-	}
-
-	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{
-		"application/json",
-	}
-
-	// set Accept header
-	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
-	if localVarHttpHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
-	}
-	localVarHeaderParams["app_id"] = parameterToString(appId, "")
-	localVarHeaderParams["app_key"] = parameterToString(appKey, "")
-	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-	if err != nil {
-		return successPayload, nil, err
-	}
-
-	localVarHttpResponse, err := a.client.callAPI(r)
-	if err != nil || localVarHttpResponse == nil {
-		return successPayload, localVarHttpResponse, err
-	}
-	defer localVarHttpResponse.Body.Close()
-	if localVarHttpResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHttpResponse.Body)
-		return successPayload, localVarHttpResponse, reportError("Status: %v, Body: %s", localVarHttpResponse.Status, bodyBytes)
-	}
-
-	if err = json.NewDecoder(localVarHttpResponse.Body).Decode(&successPayload); err != nil {
-		return successPayload, localVarHttpResponse, err
-	}
-
-	return successPayload, localVarHttpResponse, err
-}
-
-/* LemmatronApiService Check a word exists in the dictionary and retrieve its root form
- Use this to check if a word exists in the dictionary, or what &#39;root&#39; form it links to (e.g., swimming &gt; swim). The response tells you the possible [lemmas](documentation/glossary?term&#x3D;lemma) for a given [inflected](documentation/glossary?term&#x3D;inflection) word. This can then be combined with other endpoints to retrieve more information.    &lt;div id&#x3D;\&quot;lemmatron\&quot;&gt;&lt;/div&gt;
-* @param ctx context.Context for authentication, logging, tracing, etc.
-@param sourceLang IANA language code
-@param wordId The input word
-@param appId App ID Authentication Parameter
-@param appKey App Key Authentication Parameter
-@return Lemmatron*/
-func (a *LemmatronApiService) InflectionsSourceLangWordIdGet(ctx context.Context, sourceLang string, wordId string, appId string, appKey string) (Lemmatron, *http.Response, error) {
-	var (
-		localVarHttpMethod = strings.ToUpper("Get")
-		localVarPostBody   interface{}
-		localVarFileName   string
-		localVarFileBytes  []byte
-		successPayload     Lemmatron
-	)
-
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/inflections/{source_lang}/{word_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"source_lang"+"}", fmt.Sprintf("%v", sourceLang), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"word_id"+"}", fmt.Sprintf("%v", wordId), -1)
 
 	localVarHeaderParams := make(map[string]string)
